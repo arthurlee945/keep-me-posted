@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .test {
+        @apply relative flex items-center;
+    }
+}
+
+
 html,
 body {
     font-family: "Hubot Sans", sans-serif;
