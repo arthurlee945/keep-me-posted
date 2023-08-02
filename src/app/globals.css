@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
+/* @layer components{
     .test {
         @apply relative flex items-center;
     }
-}
+} */
 
 
 html,
