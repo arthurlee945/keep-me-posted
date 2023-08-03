@@ -9,10 +9,10 @@ const Header: FC<HeaderProps> = () => {
     return (
         <header className="sticky top-0 w-full p-4 flex items-center justify-between border-b-[1px] border-inherit">
             <Link href="/">K.M.P.</Link>
-            <div className="flex gap-x-3">
+            <div className="flex items-center gap-x-3">
                 <DarkModeToggle />
-                <DefaultButton buttonType="link" href="/login">
-                    HI
+                <DefaultButton buttonType="link" href="/">
+                    Get Started/Log In
                 </DefaultButton>
             </div>
         </header>
