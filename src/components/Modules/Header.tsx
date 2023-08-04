@@ -13,7 +13,7 @@ const Header: FC<HeaderProps> = () => {
             </Link>
             <div className="flex items-center gap-x-3">
                 <DarkModeToggle />
-                <DefaultButton buttonType="link" href="/">
+                <DefaultButton buttonType="link" href="api/auth/signin">
                     Get Started/Log In
                 </DefaultButton>
             </div>
