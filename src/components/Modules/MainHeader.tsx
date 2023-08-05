@@ -3,9 +3,9 @@ import DarkModeToggle from "../subComponents/DarkModeToggle";
 import Link from "next/link";
 import DefaultButton from "../subComponents/DefaultButton";
 
-interface HeaderProps {}
+interface MainHeaderProps {}
 
-const Header: FC<HeaderProps> = () => {
+const MainHeader: FC<MainHeaderProps> = () => {
     return (
         <header className="sticky top-0 w-full p-4 flex items-center justify-between border-b-[1px] border-inherit">
             <Link className="font-semibold text-xl hover:tracking-widest transition-[letter-spacing]" href="/">
@@ -21,4 +21,4 @@ const Header: FC<HeaderProps> = () => {
     );
 };
 
-export default Header;
+export default MainHeader;

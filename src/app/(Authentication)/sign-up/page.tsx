@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-interface pageProps {}
+interface SignUpProps {}
 
-const SignUp: FC<pageProps> = () => {
+const SignUp: FC<SignUpProps> = () => {
     return <>seliselihglsehglseihgli</>;
 };
 
