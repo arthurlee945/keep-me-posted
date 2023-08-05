@@ -41,8 +41,6 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    id: token.id,
-                    name: token.name,
                     createdAt: token.createdAt,
                 },
             };
@@ -53,8 +51,6 @@ export const authOptions: NextAuthOptions = {
             const u = user as unknown as User;
             return {
                 ...token,
-                id: u.id,
-                name: u.name,
                 createdAt: u.createdAt,
             };
         },

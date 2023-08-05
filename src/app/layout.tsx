@@ -5,7 +5,7 @@ import Header from "@/components/Modules/Header";
 import AuthProvider from "@/utils/auth/AuthProvider";
 
 export const metadata: Metadata = {
-    title: "Keep Me Posted",
+    title: "Keep Me Posted | Keep Your Dependencies Up To Date",
     description: "Web App to keep tabs on your depreciating packages for your projects",
 };
 
