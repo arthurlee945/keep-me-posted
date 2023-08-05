@@ -25,6 +25,7 @@ const nextConfig = {
 
         return config;
     },
+    // serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"],
 };
 
 module.exports = nextConfig;

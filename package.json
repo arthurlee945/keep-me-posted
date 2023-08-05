@@ -7,9 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:studio": "prisma db studio",
+    "db:studio": "prisma studio",
     "db:push": "prisma db push",
+    "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
