@@ -1,0 +1,11 @@
+import axios from "axios";
+export const handleRecaptchaValidation = async (executeRecaptcha: ((action?: string | undefined) => Promise<string>) | undefined) => {
+    if (!executeRecaptcha) return null;
+    const recaptchaToken = await executeRecaptcha("formSubmit");
+    const verificationRes = (
+        await axios.post("api/recaptcha-validation", {
+            recaptchaToken,
+        })
+    ).data;
+    return verificationRes.status;
+};

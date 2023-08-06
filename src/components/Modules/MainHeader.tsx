@@ -7,7 +7,7 @@ interface MainHeaderProps {}
 
 const MainHeader: FC<MainHeaderProps> = () => {
     return (
-        <header className="sticky top-0 w-full p-4 flex items-center justify-between border-b-[1px] border-inherit">
+        <header className="sticky top-0 w-full p-4 flex items-center justify-between border-b-[1px]">
             <Link className="font-semibold text-xl hover:tracking-widest transition-[letter-spacing]" href="/">
                 K.M.P.
             </Link>

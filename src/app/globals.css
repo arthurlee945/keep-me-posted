@@ -13,3 +13,8 @@ html,
 body {
     font-family: "Hubot Sans", sans-serif;
 }
+*{
+    color:inherit;
+    box-sizing: border-box;
+    border-color:inherit;
+}
