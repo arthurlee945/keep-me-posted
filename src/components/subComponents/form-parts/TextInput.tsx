@@ -19,9 +19,16 @@ const TextInput: FC<TextInputProps> = ({ id, label, errors, isDirty, type = "tex
     };
     return (
         <div className="relative flex flex-col justify-center w-full">
-            <div className="relative w-full">
-                <input id={id} type={type} {...register(id, { onChange: handleReset })} />
-                <label htmlFor={id}>Test</label>
+            <div className="flex items-center relative w-full">
+                <input
+                    className="bg-transparent w-full border-[1px] rounded-[5px]"
+                    id={id}
+                    type={type}
+                    {...register(id, { onChange: handleReset })}
+                />
+                <label className="absolute left-[10px]" htmlFor={id}>
+                    Test
+                </label>
             </div>
             <FormErrorMessage errors={errors} />
         </div>
