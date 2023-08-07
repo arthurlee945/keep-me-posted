@@ -21,15 +21,17 @@ const TextInput: FC<TextInputProps> = ({ id, label, errors, isDirty, type = "tex
         <div className="relative flex flex-col justify-center w-full">
             <div className="flex items-center relative w-full">
                 <input
-                    className={`${
-                        isDirty ? "is-dirty" : ""
+                    className={`${isDirty ? "is-dirty" : ""} ${
+                        !!errors || true ? "has-error" : ""
                     } bg-transparent w-full border-[1px] rounded-[5px] px-[15px] py-[10px] focus:outline-0 peer`}
                     id={id}
                     type={type}
                     {...register(id, { onChange: handleReset })}
                 />
                 <label
-                    className="absolute left-[15px] transition-transform peer-hover:translate-y-[-100%] peer-focus-visible:tranlate-y-[-100%] peer-[.is-dirty]:translate-y-[-100%]  dark:bg-zinc-900 bg-zinc-50"
+                    className="absolute left-[15px] transition-[font-size,transform,background-color] dark:bg-zinc-900 bg-zinc-50
+                    peer-hover:translate-y-[calc(-100%-2.5px)] peer-focus:translate-y-[calc(-100%-2.5px)] peer-[.is-dirty]:translate-y-[calc(-100%-2.5px)]
+                    peer-hover:text-sm peer-focus:text-sm peer-[.is-dirty]:text-sm peer-[.has-error]:text-red-500 peer-[.has-error]:dark:text-red-700"
                     htmlFor={id}
                 >
                     {label}
