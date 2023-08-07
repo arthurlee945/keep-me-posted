@@ -48,8 +48,8 @@ const SignInForm: FC<SignInFormProps> = () => {
                     <div className="">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
-                                id="test"
-                                label="test"
+                                id="email"
+                                label="Email"
                                 errors={errors.email}
                                 isDirty={dirtyFields.email}
                                 register={register}
