@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
                         email: credentials.email,
                     },
                 });
-                if (!user || !(await compare(credentials.password, user.password)))
+                if (!user || !user.password || !(await compare(credentials.password, user.password)))
                     throw new Error("Email or Password Is Wrong", { cause: "INCORRECT_INPUT" });
                 const { id, name, email, createdAt } = user;
                 return {
