@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ComponentPropsWithoutRef, FC, HTMLAttributes, ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 type MainButtonProps = {
     children: ReactNode;
@@ -19,7 +20,8 @@ type ButtonProps = {
 const DefaultButton: FC<MainButtonProps> = (props) => {
     const { children, className } = props;
     const classList =
-        "text-[1.1rem] px-8 py-1 rounded-md bg-zinc-900 dark:bg-zinc-100 text-zinc-100 transition-colors dark:text-zinc-900 font-semibold align-middle dark:hover:bg-zinc-300 hover:bg-zinc-700 bg-[url('../styles/icons/x.svg')] bg-[length:10px] shadow-md";
+        "text-[1.1rem] px-8 py-1 rounded-md text-zinc-100 dark:text-zinc-900 transition-colors font-semibold align-middle hover:dark:bg-zinc-300 hover:bg-zinc-700 bg-[url('../styles/icons/x.svg')]  bg-zinc-900 dark:bg-zinc-100 bg-[length:10px] shadow-md";
+
     if (props.buttonType === "button") {
         const { onClick } = props;
         return (

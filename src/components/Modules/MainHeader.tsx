@@ -1,7 +1,7 @@
 import { FC } from "react";
 import DarkModeToggle from "../subComponents/DarkModeToggle";
 import Link from "next/link";
-import DefaultButton from "../subComponents/DefaultButton";
+import HeaderAuthButton from "./HeaderAuthButton";
 
 interface MainHeaderProps {}
 
@@ -13,9 +13,7 @@ const MainHeader: FC<MainHeaderProps> = () => {
             </Link>
             <div className="flex items-center gap-x-3">
                 <DarkModeToggle />
-                <DefaultButton buttonType="link" href="api/auth/signin">
-                    Get Started/Log In
-                </DefaultButton>
+                <HeaderAuthButton />
             </div>
         </header>
     );

@@ -9,7 +9,7 @@ const DarkModeToggle = () => {
     const [darkMode, setDarkMode] = useDarkMode();
     return (
         <div
-            className={`w-16 border-[1px] flex px-[3px] h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
+            className={`w-14 border-[1px] flex h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
                 darkMode ? "justify-end" : "justify-start"
             }`}
         >
