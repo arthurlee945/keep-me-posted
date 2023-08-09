@@ -32,15 +32,15 @@ export async function POST(req: Request) {
             },
         });
         //---------on create send email
-        sendEmail({
-            to: email,
-            subject: "Please Verify Your Email <Sample App>",
-            text: `
-            Please click on link provided to verify your email\n
-            ${process.env.APP_URL}/auth/verify-email?token=${token} \n
-            If you didn't signup for Sample App, please ignore this email!
-            `,
-        });
+        // sendEmail({
+        //     to: email,
+        //     subject: "Please Verify Your Email <Sample App>",
+        //     text: `
+        //     Please click on link provided to verify your email\n
+        //     ${process.env.APP_URL}/auth/verify-email?token=${token} \n
+        //     If you didn't signup for Sample App, please ignore this email!
+        //     `,
+        // });
 
         return NextResponse.json({
             user: {

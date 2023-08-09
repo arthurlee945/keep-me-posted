@@ -72,7 +72,7 @@ const RegisterForm = () => {
             const { data } = await axios.post("/api/register", { name: username, email, password }, { signal: AbortSignal.timeout(30000) });
             //------work on email seding
             // if (!registerRes?.error) {
-            //     router.push("/");
+                router.push("/");
             // } else {
             //     setFormState((curr) => ({
             //         ...curr,
@@ -80,6 +80,7 @@ const RegisterForm = () => {
             //         globalError: signInRes.error || "Couldn't Sign In",
             //     }));
             // }
+            
         } catch (err) {
             if (err instanceof AxiosError) {
                 setFormState((curr) => ({
