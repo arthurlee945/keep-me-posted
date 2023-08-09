@@ -14,7 +14,7 @@ const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({ error, closeError }) 
             animate={{ x: 0, opacity: 1 }}
         >
             <p className="text-red-600  text-sm">{error}</p>
-            <button className="w-4 h-4" onClick={closeError}>
+            <button className="w-6 h-6" onClick={closeError}>
                 <CloseIcon className="fill-red-600" />
             </button>
         </m.div>

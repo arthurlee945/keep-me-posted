@@ -1,4 +1,6 @@
 import { prisma } from "@/utils/database/prisma";
+import { generateRandomToken } from "@/utils/functions/authUtils";
+import { sendEmail } from "@/utils/functions/mailer";
 import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -10,23 +12,36 @@ type SignUp = {
 
 export async function POST(req: Request) {
     const { name, email, password } = (await req.json()) as SignUp;
-    if (!(name && password) || !(email && password))
-        return new NextResponse(JSON.stringify({ status: "error", message: "please include valid request" }), { status: 400 });
+    if (!name || !email || !password) return new NextResponse("please include valid request", { status: 400 });
     try {
         if (
             await prisma.user.findFirst({
                 where: { OR: [{ name }, { email }] },
             })
         )
-            return new NextResponse(JSON.stringify({ status: "error", message: "username or email is already in use" }), { status: 400 });
+            return new NextResponse("username or email is already in use", { status: 400 });
         const hashed_password = await hash(password, 12);
+        const { token, hashedToken } = generateRandomToken();
+
         const user = await prisma.user.create({
             data: {
                 name: name.trim(),
                 email: email.trim().toLocaleLowerCase(),
                 password: hashed_password,
+                emailVerificationToken: hashedToken,
             },
         });
+        //---------on create send email
+        sendEmail({
+            to: email,
+            subject: "Please Verify Your Email <Sample App>",
+            text: `
+            Please click on link provided to verify your email\n
+            ${process.env.APP_URL}/auth/verify-email?token=${token} \n
+            If you didn't signup for Sample App, please ignore this email!
+            `,
+        });
+
         return NextResponse.json({
             user: {
                 name: user.name,
@@ -34,6 +49,6 @@ export async function POST(req: Request) {
             },
         });
     } catch (err: any) {
-        return new NextResponse(JSON.stringify({ status: "error", message: err.message }), { status: 500 });
+        return new NextResponse(err.message, { status: 500 });
     }
 }

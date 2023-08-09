@@ -20,20 +20,24 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) throw new Error("Email or Password Isn't Provided");
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email,
-                    },
-                });
-                if (!user || !user.password || !(await compare(credentials.password, user.password)))
-                    throw new Error("Email or Password Is Wrong", { cause: "INCORRECT_INPUT" });
-                const { id, name, email, createdAt } = user;
-                return {
-                    id,
-                    name,
-                    email,
-                    createdAt,
-                };
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: {
+                            email: credentials.email,
+                        },
+                    });
+                    if (!user || !user.password || !(await compare(credentials.password, user.password)))
+                        throw new Error("Email or Password Is Wrong", { cause: "INCORRECT_INPUT" });
+                    const { id, name, email, createdAt } = user;
+                    return {
+                        id,
+                        name,
+                        email,
+                        createdAt,
+                    };
+                } catch (err) {
+                    throw new Error("Something Went Wrong In The Server", { cause: err });
+                }
             },
         }),
         GoogleProvider({
@@ -45,25 +49,21 @@ export const authOptions: NextAuthOptions = {
         signIn: "/auth/signin",
     },
     callbacks: {
-        session: ({ session, token, user }) => {
-            // console.log("Session", { session, token, user });
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    message: "test",
-                },
-            };
-        },
-        jwt: ({ token, user }) => {
-            // console.log("Jwt", { token, user });
-            if (!user) return token;
-            const u = user as unknown as User;
-            return {
-                ...token,
-                message: "test",
-            };
-        },
+        // session: ({ session, token, user }) => {
+        //     return {
+        //         ...session,
+        //         user: {
+        //             ...session.user,
+        //         },
+        //     };
+        // },
+        // jwt: ({ token, user }) => {
+        //     if (!user) return token;
+        //     const u = user as unknown as User;
+        //     return {
+        //         ...token,
+        //     };
+        // },
         signIn: ({ user, account, profile, email, credentials }) => {
             if (account?.provider !== "google") return true;
 

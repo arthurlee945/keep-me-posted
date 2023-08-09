@@ -1,34 +1,40 @@
 "use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FC, useEffect, useState } from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
 import { ClientSafeProvider, LiteralUnion } from "next-auth/react/types";
 import { BuiltInProviderType } from "next-auth/providers";
 import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+
 //-----------------custom
 import GlobalErrorMessage from "@/components/subComponents/form-parts/GlobalErrorMessage";
-import GoogleIcon from "@/styles/icons/google.svg";
 import TextInput from "@/components/subComponents/form-parts/TextInput";
 import SubmitButton from "@/components/subComponents/form-parts/SubmitButton";
 import { handleRecaptchaValidation } from "@/utils/functions/handleRecaptchaValidation";
 import LoadingContainer from "@/components/subComponents/form-parts/LoadingContainer";
+import CheckBoxInput from "@/components/subComponents/form-parts/CheckBoxInput";
+import axios, { AxiosError } from "axios";
 
-interface SignInFormProps {
-    csrfToken?: string;
-    providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null;
-}
-
-const signInSchema = z.object({
-    email: z.string().trim().min(1, "Email is required").email("Invalid email"),
-    password: z.string().trim().min(1, "Password is required"),
-});
-
-const SignInForm: FC<SignInFormProps> = () => {
+const RegisterSchema = z
+    .object({
+        username: z.string().trim().min(1, "Username is required").max(100),
+        email: z.string().trim().min(1, "Email is required").email("Invalid email"),
+        password: z.string().trim().min(1, "Password is required").min(8, "Password must have more than 8 characters"),
+        confirmPassword: z.string().trim().min(1, "Password confirmation is required"),
+        terms: z.literal(true, {
+            errorMap: () => ({ message: "You must accept the terms and conditions" }),
+        }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+    });
+export type RegisterFields = z.infer<typeof RegisterSchema>;
+const RegisterForm = () => {
     const router = useRouter();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [{ loading, globalError }, setFormState] = useState<{
@@ -45,9 +51,9 @@ const SignInForm: FC<SignInFormProps> = () => {
         setFocus,
         setError,
         formState: { errors, isSubmitSuccessful, dirtyFields },
-    } = useForm({ resolver: zodResolver(signInSchema) });
+    } = useForm({ resolver: zodResolver(RegisterSchema) });
 
-    const onSubmit = async ({ email, password }: FieldValues) => {
+    const onSubmit = async ({ username, email, password }: FieldValues) => {
         setFormState((curr) => ({
             ...curr,
             loading: true,
@@ -63,29 +69,36 @@ const SignInForm: FC<SignInFormProps> = () => {
             return;
         }
         try {
-            const signInRes = await signIn("credentials", { email, password, redirect: false });
-            if (!signInRes?.error) {
-                router.push("/");
+            const { data } = await axios.post("/api/register", { name: username, email, password }, { signal: AbortSignal.timeout(30000) });
+            //------work on email seding
+            // if (!registerRes?.error) {
+            //     router.push("/");
+            // } else {
+            //     setFormState((curr) => ({
+            //         ...curr,
+            //         loading: false,
+            //         globalError: signInRes.error || "Couldn't Sign In",
+            //     }));
+            // }
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                setFormState((curr) => ({
+                    ...curr,
+                    loading: false,
+                    globalError: ((err as AxiosError).response?.data as string) || "Sorry Something Went Wrong",
+                }));
             } else {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError: signInRes.error || "Couldn't Sign In",
+                    globalError: "Sorry Something Went Wrong",
                 }));
             }
-        } catch (err) {
-            setFormState((curr) => ({
-                ...curr,
-                loading: false,
-                globalError: "Sorry Something Went Wrong",
-            }));
         }
     };
     useEffect(() => {
-        setFocus("email");
-        resetField("email");
-        resetField("password");
-    }, [setFocus, resetField]);
+        setFocus("username");
+    }, [setFocus]);
     return (
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
@@ -94,7 +107,7 @@ const SignInForm: FC<SignInFormProps> = () => {
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-2xl font-semibold mb-3">Sign In</h1>
+                    <h1 className="text-2xl font-semibold mb-3">Register</h1>
                     {globalError && (
                         <GlobalErrorMessage
                             error={globalError}
@@ -106,6 +119,14 @@ const SignInForm: FC<SignInFormProps> = () => {
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
                         <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
+                            <TextInput
+                                id="username"
+                                label="Username"
+                                errors={errors.username}
+                                isDirty={dirtyFields.username}
+                                register={register}
+                                resetField={resetField}
+                            />
                             <TextInput
                                 id="email"
                                 label="Email"
@@ -123,36 +144,25 @@ const SignInForm: FC<SignInFormProps> = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <SubmitButton disabled={loading}>Sign In With K.M.P.</SubmitButton>
+                            <TextInput
+                                id="confirmPassword"
+                                label="Confirm Password"
+                                type="password"
+                                errors={errors.confirmPassword}
+                                isDirty={dirtyFields.confirmPassword}
+                                register={register}
+                                resetField={resetField}
+                            />
+                            <CheckBoxInput id="terms" errors={errors.terms} legal={true} register={register} resetField={resetField} />
+                            <SubmitButton disabled={loading}>Register</SubmitButton>
                         </form>
-                        <p
-                            className="w-full my-4 text-xs flex justify-center items-center 
-                        before:content-[''] before:flex-1 before:h-[1px] before:dark:bg-zinc-50 before:bg-zinc-900 before:mr-1
-                        after:content-[''] after:flex-1 after:h-[1px] after:dark:bg-zinc-50 after:bg-zinc-900 after:ml-1"
-                        >
-                            OR
-                        </p>
-                        <SubmitButton
-                            className="flex items-center justify-center gap-x-3"
-                            type="button"
-                            onClick={() => {
-                                signIn("google");
-                            }}
-                            disabled={loading}
-                        >
-                            <GoogleIcon className="w-4 h-4" />
-                            Sign In With Gmail
-                        </SubmitButton>
                         <div className="mt-6">
                             <p className="text-sm">
-                                New to <span className="font-semibold">Keep Me Posted</span>?{" "}
-                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
-                                    Sign Up
+                                Already a <span className="font-semibold">Member</span>?{" "}
+                                <Link className="font-semibold text-blue-500 hover:underline" href="/auth/signin">
+                                    Sign In
                                 </Link>
                             </p>
-                            <Link className="text-sm font-semibold text-sky-600 hover:underline" href="/auth/forgot-password">
-                                Forgot Password
-                            </Link>
                         </div>
                     </div>
                 </m.div>
@@ -161,4 +171,4 @@ const SignInForm: FC<SignInFormProps> = () => {
     );
 };
 
-export default SignInForm;
+export default RegisterForm;
