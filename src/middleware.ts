@@ -23,7 +23,6 @@ export default withAuth(
             authorized({ req, token }) {
                 const pathName = req.nextUrl.pathname;
                 if (pathName.match(/^\/($|api\/.*|auth\/(verify-email|signin|signout|register|reset-password))$/)) return true;
-
                 return !!token;
             },
         },
@@ -32,7 +31,4 @@ export default withAuth(
 
 // export const config = {
 //     matcher: ["/((?!register|testRoute|api|auth|_next/static|_next/image|favicon.ico|$).*)"],
-// };
-// export const config = {
-// matcher: ["/auth/logout"],
 // };
