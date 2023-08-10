@@ -10,7 +10,7 @@ const HeaderAuthButton: FC<HeaderAuthButtonProps> = () => {
     return (
         <DefaultButton
             buttonType="link"
-            href={status === "loading" ? "#" : status === "unauthenticated" ? "/auth/signin" : "api/auth/signout"}
+            href={status === "loading" ? "#" : status === "unauthenticated" ? "/auth/signin" : "/auth/signout"}
         >
             {status === "loading" ? "Loading..." : status === "unauthenticated" ? "Get Started/Log In" : "Sign Out"}
         </DefaultButton>

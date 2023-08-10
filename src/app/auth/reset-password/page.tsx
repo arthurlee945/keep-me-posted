@@ -1,9 +1,11 @@
-import { FC } from "react";
+import ResetPasswordForm from "@/components/Modules/Auth-Components/ResetPasswordForm";
 
-interface ResetPasswordProps {}
-
-const ResetPassword: FC<ResetPasswordProps> = () => {
-    return <main className="flex-1 w-full flex justify-center items-center"></main>;
+const ResetPassword = ({ searchParams: { token } }: { searchParams: { token: string } }) => {
+    return (
+        <main className="flex-1 w-full flex justify-center items-center">
+            <ResetPasswordForm token={token} />
+        </main>
+    );
 };
 
 export default ResetPassword;

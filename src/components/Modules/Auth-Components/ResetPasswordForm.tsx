@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FC, useEffect, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
-import { ClientSafeProvider, LiteralUnion } from "next-auth/react/types";
-import { BuiltInProviderType } from "next-auth/providers";
+
 import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useRouter } from "next/navigation";
@@ -17,18 +16,23 @@ import TextInput from "@/components/subComponents/form-parts/TextInput";
 import SubmitButton from "@/components/subComponents/form-parts/SubmitButton";
 import { handleRecaptchaValidation } from "@/utils/functions/handleRecaptchaValidation";
 import LoadingContainer from "@/components/subComponents/form-parts/LoadingContainer";
+import axios from "axios";
 
-interface SignInFormProps {
-    csrfToken?: string;
-    providers?: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null;
+interface ResetPasswordFormProps {
+    token: string | undefined;
 }
 
-const signInSchema = z.object({
-    email: z.string().trim().min(1, "Email is required").email("Invalid email"),
-    password: z.string().trim().min(1, "Password is required"),
-});
+const ResetPasswordSchema = z
+    .object({
+        password: z.string().trim().min(1, "Password is required").min(8, "Password must have more than 8 characters"),
+        confirmPassword: z.string().trim().min(1, "Password confirmation is required"),
+    })
+    .refine((data) => data.password !== data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+    });
 
-const SignInForm: FC<SignInFormProps> = () => {
+const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
     const router = useRouter();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [{ loading, globalError }, setFormState] = useState<{
@@ -44,7 +48,7 @@ const SignInForm: FC<SignInFormProps> = () => {
         resetField,
         setFocus,
         formState: { errors, dirtyFields },
-    } = useForm({ resolver: zodResolver(signInSchema) });
+    } = useForm({ resolver: zodResolver(ResetPasswordSchema) });
 
     const onSubmit = async ({ email, password }: FieldValues) => {
         setFormState((curr) => ({
@@ -62,16 +66,17 @@ const SignInForm: FC<SignInFormProps> = () => {
             return;
         }
         try {
-            const signInRes = await signIn("credentials", { email, password, redirect: false });
-            if (!signInRes?.error) {
-                router.push("/");
-            } else {
-                setFormState((curr) => ({
-                    ...curr,
-                    loading: false,
-                    globalError: signInRes.error || "Couldn't Sign In",
-                }));
-            }
+            const { data } = await axios.post("/api/auth/reset-password", { token }, { signal: AbortSignal.timeout(30000) });
+            // const signInRes = await signIn("credentials", { email, password, redirect: false });
+            // if (!signInRes?.error) {
+            //     router.push("/");
+            // } else {
+            //     setFormState((curr) => ({
+            //         ...curr,
+            //         loading: false,
+            //         globalError: signInRes.error || "Couldn't Sign In",
+            //     }));
+            // }
         } catch (err) {
             setFormState((curr) => ({
                 ...curr,
@@ -81,10 +86,8 @@ const SignInForm: FC<SignInFormProps> = () => {
         }
     };
     useEffect(() => {
-        setFocus("email");
-        resetField("email");
-        resetField("password");
-    }, [setFocus, resetField]);
+        setFocus("password");
+    }, [setFocus]);
     return (
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
@@ -93,7 +96,7 @@ const SignInForm: FC<SignInFormProps> = () => {
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-2xl font-semibold mb-3">Sign In</h1>
+                    <h1 className="text-2xl font-semibold mb-3">Reset Password</h1>
                     {globalError && (
                         <GlobalErrorMessage
                             error={globalError}
@@ -106,14 +109,6 @@ const SignInForm: FC<SignInFormProps> = () => {
                         {loading && <LoadingContainer />}
                         <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
-                                id="email"
-                                label="Email"
-                                errors={errors.email}
-                                isDirty={dirtyFields.email}
-                                register={register}
-                                resetField={resetField}
-                            />
-                            <TextInput
                                 id="password"
                                 label="Password"
                                 type="password"
@@ -122,36 +117,25 @@ const SignInForm: FC<SignInFormProps> = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <SubmitButton disabled={loading}>Sign In With K.M.P.</SubmitButton>
+                            <TextInput
+                                id="confirmPassword"
+                                label="Confirm Password"
+                                type="password"
+                                errors={errors.confirmPassword}
+                                isDirty={dirtyFields.confirmPassword}
+                                register={register}
+                                resetField={resetField}
+                            />
+                            <SubmitButton disabled={loading}>Reset Password</SubmitButton>
                         </form>
-                        <p
-                            className="w-full my-4 text-xs flex justify-center items-center 
-                        before:content-[''] before:flex-1 before:h-[1px] before:dark:bg-zinc-50 before:bg-zinc-900 before:mr-1
-                        after:content-[''] after:flex-1 after:h-[1px] after:dark:bg-zinc-50 after:bg-zinc-900 after:ml-1"
-                        >
-                            OR
-                        </p>
-                        <SubmitButton
-                            className="flex items-center justify-center gap-x-3"
-                            type="button"
-                            onClick={() => {
-                                signIn("google");
-                            }}
-                            disabled={loading}
-                        >
-                            <GoogleIcon className="w-4 h-4" />
-                            Sign In With Gmail
-                        </SubmitButton>
+
                         <div className="mt-6">
                             <p className="text-sm">
-                                New to <span className="font-semibold">Keep Me Posted</span>?{" "}
-                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
-                                    Sign Up
+                                Remembered Your <span className="font-semibold">Credential</span>?{" "}
+                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
+                                    Sign In
                                 </Link>
                             </p>
-                            <Link className="text-sm font-semibold text-sky-600 hover:underline" href="/auth/forgot-password">
-                                Forgot Password
-                            </Link>
                         </div>
                     </div>
                 </m.div>
@@ -160,4 +144,4 @@ const SignInForm: FC<SignInFormProps> = () => {
     );
 };
 
-export default SignInForm;
+export default ResetPasswordForm;

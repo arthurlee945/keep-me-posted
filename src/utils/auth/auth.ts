@@ -2,8 +2,6 @@ import type { NextAuthOptions } from "next-auth";
 import { compare } from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-
-import { User } from "@prisma/client";
 import { prisma } from "../database/prisma";
 
 export const authOptions: NextAuthOptions = {
@@ -36,6 +34,9 @@ export const authOptions: NextAuthOptions = {
                         createdAt,
                     };
                 } catch (err) {
+                    if (err instanceof Error && err.message) {
+                        throw new Error(err.message, { cause: err });
+                    }
                     throw new Error("Something Went Wrong In The Server", { cause: err });
                 }
             },
@@ -47,6 +48,7 @@ export const authOptions: NextAuthOptions = {
     ],
     pages: {
         signIn: "/auth/signin",
+        signOut: "/auth/signout",
     },
     callbacks: {
         // session: ({ session, token, user }) => {
@@ -69,5 +71,13 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
+    },
+    events: {
+        // signOut({ token, session }) {
+        //     console.log(token, session);
+        //     if (!session) {
+        //         console.log(session);
+        //     }
+        // },
     },
 };

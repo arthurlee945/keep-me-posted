@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+
 const VerifyEmailNotice = async ({ token }: { token: string | undefined }) => {
     if (!token) {
         return "No Token Provided";
