@@ -1,4 +1,4 @@
-import { createTransport } from "nodemailer";
+import nodemailer from "nodemailer";
 
 type messageOptType = {
     from?: string;
@@ -9,7 +9,7 @@ type messageOptType = {
 };
 export const sendEmail = async (messageOpt: messageOptType) => {
     const { EMAIL_USERNAME, EMAIL_PASSWORD } = process.env;
-    const { sendMail } = createTransport({
+    const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
             user: EMAIL_USERNAME,
@@ -22,11 +22,11 @@ export const sendEmail = async (messageOpt: messageOptType) => {
         ...messageOpt,
     };
     try {
-        const test = await sendMail(message);
-        console.log(test);
+        const res = await transporter.sendMail(message);
         return {
             status: "success",
             message: "email is sent successfully",
+            data: JSON.stringify(res),
         };
     } catch (err) {
         console.error(err);

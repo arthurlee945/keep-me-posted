@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className="dark">
+        <html lang="en" className="dark ">
             <body
-                className="flex flex-col max-w-[1536px] m-[10px] mx-[max(calc((100%-1536px)/2),_10px)] transition-colors border-[1px] min-h-[calc(100vh-20px)] lg:m-[8px] lg:min-h-[calc(100vh-16px)]
+                className="flex overflow-x-hidden flex-col max-w-[1536px] m-[10px] mx-[max(calc((100%-1536px)/2),_10px)] transition-colors border-[1px] min-h-[calc(100vh-20px)] lg:m-[8px] lg:min-h-[calc(100vh-16px)]
                 bg-zinc-50 dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-50 
                 selection:text-zinc-50 selection:bg-zinc-900 dark:selection:text-zinc-900 dark:selection:bg-zinc-50"
             >

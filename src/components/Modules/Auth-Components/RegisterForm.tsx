@@ -2,10 +2,8 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
-import { ClientSafeProvider, LiteralUnion } from "next-auth/react/types";
-import { BuiltInProviderType } from "next-auth/providers";
 import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useRouter } from "next/navigation";
@@ -18,6 +16,7 @@ import { handleRecaptchaValidation } from "@/utils/functions/handleRecaptchaVali
 import LoadingContainer from "@/components/subComponents/form-parts/LoadingContainer";
 import CheckBoxInput from "@/components/subComponents/form-parts/CheckBoxInput";
 import axios, { AxiosError } from "axios";
+import { signIn } from "next-auth/react";
 
 const RegisterSchema = z
     .object({
@@ -49,8 +48,7 @@ const RegisterForm = () => {
         handleSubmit,
         resetField,
         setFocus,
-        setError,
-        formState: { errors, isSubmitSuccessful, dirtyFields },
+        formState: { errors, dirtyFields },
     } = useForm({ resolver: zodResolver(RegisterSchema) });
 
     const onSubmit = async ({ username, email, password }: FieldValues) => {
@@ -69,18 +67,18 @@ const RegisterForm = () => {
             return;
         }
         try {
-            const { data } = await axios.post("/api/register", { name: username, email, password }, { signal: AbortSignal.timeout(30000) });
-            //------work on email seding
-            // if (!registerRes?.error) {
+            const { data } = await axios.post(
+                "/api/auth/register",
+                { name: username, email, password },
+                { signal: AbortSignal.timeout(30000) }
+            );
+
+            const signInRes = await signIn("credentials", { email, password, redirect: false });
+            if (!signInRes?.error) {
                 router.push("/");
-            // } else {
-            //     setFormState((curr) => ({
-            //         ...curr,
-            //         loading: false,
-            //         globalError: signInRes.error || "Couldn't Sign In",
-            //     }));
-            // }
-            
+            } else {
+                router.push("/auth/signin");
+            }
         } catch (err) {
             if (err instanceof AxiosError) {
                 setFormState((curr) => ({

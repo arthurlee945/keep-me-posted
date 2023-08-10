@@ -22,7 +22,6 @@ export async function POST(req: Request) {
             return new NextResponse("username or email is already in use", { status: 400 });
         const hashed_password = await hash(password, 12);
         const { token, hashedToken } = generateRandomToken();
-
         const user = await prisma.user.create({
             data: {
                 name: name.trim(),
@@ -32,22 +31,17 @@ export async function POST(req: Request) {
             },
         });
         //---------on create send email
-        // sendEmail({
-        //     to: email,
-        //     subject: "Please Verify Your Email <Sample App>",
-        //     text: `
-        //     Please click on link provided to verify your email\n
-        //     ${process.env.APP_URL}/auth/verify-email?token=${token} \n
-        //     If you didn't signup for Sample App, please ignore this email!
-        //     `,
-        // });
-
-        return NextResponse.json({
-            user: {
-                name: user.name,
-                emai: user.email,
-            },
+        sendEmail({
+            to: email,
+            subject: "Please Verify Your Email for Keep Me Posted!",
+            text: `
+            Please click on link provided to verify your email\n
+            ${process.env.APP_URL}/auth/verify-email?token=${token} \n
+            If you didn't signup for "Keep Me Posted", please ignore this email!
+            `,
         });
+
+        return NextResponse.json({ status: "successful", user: { name: user.name, email: user.email } });
     } catch (err: any) {
         return new NextResponse(err.message, { status: 500 });
     }
