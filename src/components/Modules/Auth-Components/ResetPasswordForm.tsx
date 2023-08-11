@@ -50,7 +50,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
         formState: { errors, dirtyFields },
     } = useForm({ resolver: zodResolver(ResetPasswordSchema) });
 
-    const onSubmit = async ({ email, password }: FieldValues) => {
+    const onSubmit = async ({ password }: FieldValues) => {
         setFormState((curr) => ({
             ...curr,
             loading: true,
@@ -66,7 +66,12 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
             return;
         }
         try {
-            const { data } = await axios.post("/api/auth/reset-password", { token }, { signal: AbortSignal.timeout(30000) });
+            const { data } = await axios.post(
+                "/api/auth/reset-password/reset",
+                { token, password },
+                { signal: AbortSignal.timeout(30000) }
+            );
+            //*Makes sure when password change log people out
             // const signInRes = await signIn("credentials", { email, password, redirect: false });
             // if (!signInRes?.error) {
             //     router.push("/");
