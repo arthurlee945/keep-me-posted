@@ -1,6 +1,6 @@
 import ForgotPasswordForm from "@/components/Modules/Auth-Components/ForgotPasswordForm";
 
-const SignIn = async () => {
+const ForgotPassword = async () => {
     return (
         <main className="flex-1 w-full flex justify-center items-center p-5">
             <ForgotPasswordForm />
@@ -8,4 +8,4 @@ const SignIn = async () => {
     );
 };
 
-export default SignIn;
+export default ForgotPassword;

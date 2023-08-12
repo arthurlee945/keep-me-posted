@@ -12,7 +12,7 @@ import TextInput from "@/components/subComponents/form-parts/TextInput";
 import SubmitButton from "@/components/subComponents/form-parts/SubmitButton";
 import { handleRecaptchaValidation } from "@/utils/functions/handleRecaptchaValidation";
 import LoadingContainer from "@/components/subComponents/form-parts/LoadingContainer";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const ForgotPasswordSchema = z.object({
     email: z.string().trim().min(1, "Email is required").email("Invalid email"),
@@ -20,11 +20,13 @@ const ForgotPasswordSchema = z.object({
 
 const ForgotPasswordForm = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
-    const [{ loading, globalError }, setFormState] = useState<{
+    const [{ loading, submitted, globalError }, setFormState] = useState<{
         loading: boolean;
+        submitted: boolean;
         globalError: string | null;
     }>({
         loading: false,
+        submitted: false,
         globalError: null,
     });
     const {
@@ -52,12 +54,27 @@ const ForgotPasswordForm = () => {
         }
         try {
             const { data } = await axios.post("/api/auth/forgot-password", { email }, { signal: AbortSignal.timeout(30000) });
-        } catch (err) {
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
-                globalError: "Sorry Something Went Wrong",
+                submitted: true,
+                globalError: data.status !== "success" ? data : null,
             }));
+        } catch (err) {
+            console.log(err);
+            if (err instanceof AxiosError) {
+                setFormState((curr) => ({
+                    ...curr,
+                    loading: false,
+                    globalError: ((err as AxiosError).response?.data as string) || "Sorry Something Went Wrong",
+                }));
+            } else {
+                setFormState((curr) => ({
+                    ...curr,
+                    loading: false,
+                    globalError: "Sorry Something Went Wrong",
+                }));
+            }
         }
     };
     useEffect(() => {
@@ -66,7 +83,7 @@ const ForgotPasswordForm = () => {
     return (
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
-                <m.div
+                <m.section
                     className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] sm:min-w-0 sm:w-full "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -82,33 +99,52 @@ const ForgotPasswordForm = () => {
                     )}
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
-                        <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
-                            <TextInput
-                                id="email"
-                                label="Email"
-                                errors={errors.email}
-                                isDirty={dirtyFields.email}
-                                register={register}
-                                resetField={resetField}
-                            />
-                            <SubmitButton disabled={loading}>Reset Password</SubmitButton>
-                        </form>
-                        <div className="mt-6">
-                            <p className="text-sm">
-                                New to <span className="font-semibold">Keep Me Posted</span>?{" "}
-                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
-                                    Sign Up
+
+                        {!submitted && false ? (
+                            <>
+                                <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
+                                    <TextInput
+                                        id="email"
+                                        label="Email"
+                                        errors={errors.email}
+                                        isDirty={dirtyFields.email}
+                                        register={register}
+                                        resetField={resetField}
+                                    />
+                                    <SubmitButton disabled={loading}>Reset Password</SubmitButton>
+                                </form>
+                                <div className="mt-6">
+                                    <p className="text-sm">
+                                        New to <span className="font-semibold">Keep Me Posted</span>?{" "}
+                                        <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
+                                            Sign Up
+                                        </Link>
+                                    </p>
+                                    <p className="text-sm">
+                                        Remembered Your <span className="font-semibold">Credential</span>?{" "}
+                                        <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
+                                            Sign In
+                                        </Link>
+                                    </p>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <h1 className="text-lg text-center mb-6">
+                                    <span className="font-bold line">Email is sent!</span>
+                                    <br />
+                                    <span className="text-sm">Please follow instruction to reset your password!</span>
+                                </h1>
+                                <Link
+                                    className="border-[1px] py-2 px-5 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold w-fit self-center"
+                                    href="/"
+                                >
+                                    Go Back
                                 </Link>
-                            </p>
-                            <p className="text-sm">
-                                Remembered Your <span className="font-semibold">Credential</span>?{" "}
-                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
-                                    Sign In
-                                </Link>
-                            </p>
-                        </div>
+                            </>
+                        )}
                     </div>
-                </m.div>
+                </m.section>
             </AnimatePresence>
         </LazyMotion>
     );

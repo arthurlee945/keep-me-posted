@@ -67,12 +67,7 @@ const RegisterForm = () => {
             return;
         }
         try {
-            const { data } = await axios.post(
-                "/api/auth/register",
-                { name: username, email, password },
-                { signal: AbortSignal.timeout(30000) }
-            );
-
+            await axios.post("/api/auth/register", { name: username, email, password }, { signal: AbortSignal.timeout(30000) });
             const signInRes = await signIn("credentials", { email, password, redirect: false });
             if (!signInRes?.error) {
                 router.push("/");

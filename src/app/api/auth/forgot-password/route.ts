@@ -17,11 +17,12 @@ export async function POST(req: Request) {
         const { token, hashedToken, expires } = generateRandomToken();
         const emailRes = await sendEmail({
             to: email,
-            subject: "Please Verify Your Email for Keep Me Posted!",
+            subject: "Reset password reqeust for Keep Me Posted!",
             text: `
-            Please click on link provided to verify your email\n
-            ${process.env.APP_URL}/auth/verify-email?token=${token} \n
-            If you didn't signup for "Keep Me Posted", please ignore this email!
+            Please click on link provided to reset your password\n
+            ${process.env.APP_URL}/auth/reset-password?token=${token} \n
+            Token will expire in 10 mins.\n
+            If you didn't request to reset your password for "Keep Me Posted", please ignore this email!
             `,
         });
         if (emailRes.status !== "success") return new NextResponse("Failed sending reset email", { status: 500 });
