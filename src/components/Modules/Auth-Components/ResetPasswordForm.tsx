@@ -103,7 +103,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-2xl font-semibold mb-3">Reset Password</h1>
+                            <h1 className="text-2xl font-semibold mb-3">New Password</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
