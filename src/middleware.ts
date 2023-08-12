@@ -19,7 +19,6 @@ export default withAuth(
         callbacks: {
             authorized({ req, token }) {
                 const pathName = req.nextUrl.pathname;
-                console.log(req.nextUrl.searchParams.get("token"));
                 if (pathName.match(/^\/($|api\/.*|auth\/(verify-email|signin|signout|register|forgot-password|reset-password))$/))
                     return true;
                 return !!token;
