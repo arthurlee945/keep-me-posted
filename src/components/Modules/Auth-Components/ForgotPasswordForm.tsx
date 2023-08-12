@@ -1,28 +1,24 @@
 "use client";
+import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { AnimatePresence, m, LazyMotion, domAnimation } from "framer-motion";
-import Link from "next/link";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 //-----------------custom
 import GlobalErrorMessage from "@/components/subComponents/form-parts/GlobalErrorMessage";
-import GoogleIcon from "@/styles/icons/google.svg";
 import TextInput from "@/components/subComponents/form-parts/TextInput";
 import SubmitButton from "@/components/subComponents/form-parts/SubmitButton";
 import { handleRecaptchaValidation } from "@/utils/functions/handleRecaptchaValidation";
 import LoadingContainer from "@/components/subComponents/form-parts/LoadingContainer";
+import axios from "axios";
 
-const signInSchema = z.object({
+const ForgotPasswordSchema = z.object({
     email: z.string().trim().min(1, "Email is required").email("Invalid email"),
-    password: z.string().trim().min(1, "Password is required"),
 });
 
-const SignInForm = () => {
-    const router = useRouter();
+const ForgotPasswordForm = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [{ loading, globalError }, setFormState] = useState<{
         loading: boolean;
@@ -37,7 +33,7 @@ const SignInForm = () => {
         resetField,
         setFocus,
         formState: { errors, dirtyFields },
-    } = useForm({ resolver: zodResolver(signInSchema) });
+    } = useForm({ resolver: zodResolver(ForgotPasswordSchema) });
 
     const onSubmit = async ({ email, password }: FieldValues) => {
         setFormState((curr) => ({
@@ -55,16 +51,7 @@ const SignInForm = () => {
             return;
         }
         try {
-            const signInRes = await signIn("credentials", { email, password, redirect: false });
-            if (!signInRes?.error) {
-                router.push("/");
-            } else {
-                setFormState((curr) => ({
-                    ...curr,
-                    loading: false,
-                    globalError: signInRes.error || "Couldn't Sign In",
-                }));
-            }
+            const { data } = await axios.post("/api/auth/forgot-password", { email }, { signal: AbortSignal.timeout(30000) });
         } catch (err) {
             setFormState((curr) => ({
                 ...curr,
@@ -75,9 +62,7 @@ const SignInForm = () => {
     };
     useEffect(() => {
         setFocus("email");
-        resetField("email");
-        resetField("password");
-    }, [setFocus, resetField]);
+    }, [setFocus]);
     return (
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
@@ -86,7 +71,7 @@ const SignInForm = () => {
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-2xl font-semibold mb-3">Sign In</h1>
+                    <h1 className="text-2xl font-semibold mb-3">Forgot Password</h1>
                     {globalError && (
                         <GlobalErrorMessage
                             error={globalError}
@@ -106,35 +91,8 @@ const SignInForm = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <TextInput
-                                id="password"
-                                label="Password"
-                                type="password"
-                                errors={errors.password}
-                                isDirty={dirtyFields.password}
-                                register={register}
-                                resetField={resetField}
-                            />
-                            <SubmitButton disabled={loading}>Sign In With K.M.P.</SubmitButton>
+                            <SubmitButton disabled={loading}>Reset Password</SubmitButton>
                         </form>
-                        <p
-                            className="w-full my-4 text-xs flex justify-center items-center 
-                        before:content-[''] before:flex-1 before:h-[1px] before:dark:bg-zinc-50 before:bg-zinc-900 before:mr-1
-                        after:content-[''] after:flex-1 after:h-[1px] after:dark:bg-zinc-50 after:bg-zinc-900 after:ml-1"
-                        >
-                            OR
-                        </p>
-                        <SubmitButton
-                            className="flex items-center justify-center gap-x-3"
-                            type="button"
-                            onClick={() => {
-                                signIn("google");
-                            }}
-                            disabled={loading}
-                        >
-                            <GoogleIcon className="w-4 h-4" />
-                            Sign In With Gmail
-                        </SubmitButton>
                         <div className="mt-6">
                             <p className="text-sm">
                                 New to <span className="font-semibold">Keep Me Posted</span>?{" "}
@@ -142,9 +100,12 @@ const SignInForm = () => {
                                     Sign Up
                                 </Link>
                             </p>
-                            <Link className="text-sm font-semibold text-sky-600 hover:underline" href="/auth/forgot-password">
-                                Forgot Password
-                            </Link>
+                            <p className="text-sm">
+                                Remembered Your <span className="font-semibold">Credential</span>?{" "}
+                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
+                                    Sign In
+                                </Link>
+                            </p>
                         </div>
                     </div>
                 </m.div>
@@ -153,4 +114,4 @@ const SignInForm = () => {
     );
 };
 
-export default SignInForm;
+export default ForgotPasswordForm;

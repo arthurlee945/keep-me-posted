@@ -1,4 +1,5 @@
 import axios from "axios";
+import { prisma } from "../database/prisma";
 
 export const signOutUser = async () => {
     try {
