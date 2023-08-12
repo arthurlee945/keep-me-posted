@@ -17,6 +17,7 @@ export async function POST(req: Request) {
         if (
             await prisma.user.findFirst({
                 where: { OR: [{ name }, { email }] },
+                select: {},
             })
         )
             return new NextResponse("username or email is already in use", { status: 400 });

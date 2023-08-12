@@ -1,4 +1,5 @@
 import ResetPasswordForm from "@/components/Modules/Auth-Components/ResetPasswordForm";
+import Link from "next/link";
 
 const ResetPassword = ({ searchParams: { token } }: { searchParams: { token: string } }) => {
     return (

@@ -1,7 +1,3 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-//-----------------custom
-import { authOptions } from "@/utils/auth/auth";
 import SignInForm from "@/components/Modules/Auth-Components/SignInForm";
 
 const SignIn = async () => {

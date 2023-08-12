@@ -79,7 +79,7 @@ const RegisterForm = () => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError: ((err as AxiosError).response?.data as string) || "Sorry Something Went Wrong",
+                    globalError: `${(err as AxiosError).response?.data}` || "Sorry Something Went Wrong",
                 }));
             } else {
                 setFormState((curr) => ({

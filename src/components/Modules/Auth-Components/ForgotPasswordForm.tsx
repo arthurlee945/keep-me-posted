@@ -53,20 +53,18 @@ const ForgotPasswordForm = () => {
             return;
         }
         try {
-            const { data } = await axios.post("/api/auth/forgot-password", { email }, { signal: AbortSignal.timeout(30000) });
+            await axios.post("/api/auth/forgot-password", { email }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
                 submitted: true,
-                globalError: data.status !== "success" ? data : null,
             }));
         } catch (err) {
-            console.log(err);
             if (err instanceof AxiosError) {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError: ((err as AxiosError).response?.data as string) || "Sorry Something Went Wrong",
+                    globalError: `${(err as AxiosError).response?.data}` || "Sorry Something Went Wrong",
                 }));
             } else {
                 setFormState((curr) => ({
@@ -88,20 +86,23 @@ const ForgotPasswordForm = () => {
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-2xl font-semibold mb-3">Forgot Password</h1>
-                    {globalError && (
-                        <GlobalErrorMessage
-                            error={globalError}
-                            closeError={() => {
-                                setFormState((curr) => ({ ...curr, globalError: null }));
-                            }}
-                        />
+                    {!submitted && (
+                        <>
+                            <h1 className="text-2xl font-semibold mb-3">Forgot Password</h1>
+                            {globalError && (
+                                <GlobalErrorMessage
+                                    error={globalError}
+                                    closeError={() => {
+                                        setFormState((curr) => ({ ...curr, globalError: null }));
+                                    }}
+                                />
+                            )}
+                        </>
                     )}
                     <div className="relative flex flex-col text-sm align-center">
-                        {loading && <LoadingContainer />}
-
-                        {!submitted && false ? (
+                        {!submitted ? (
                             <>
+                                {loading && <LoadingContainer />}
                                 <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                                     <TextInput
                                         id="email"
