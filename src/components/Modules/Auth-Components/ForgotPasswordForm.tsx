@@ -35,7 +35,7 @@ const ForgotPasswordForm = () => {
         formState: { errors, dirtyFields },
     } = useForm({ resolver: zodResolver(ForgotPasswordSchema) });
 
-    const onSubmit = async ({ email, password }: FieldValues) => {
+    const onSubmit = async ({ email }: FieldValues) => {
         setFormState((curr) => ({
             ...curr,
             loading: true,
