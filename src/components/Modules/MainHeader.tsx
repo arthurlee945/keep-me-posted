@@ -2,7 +2,6 @@ import { FC } from "react";
 import DarkModeToggle from "../subComponents/DarkModeToggle";
 import Link from "next/link";
 import HeaderAuthButton from "./HeaderAuthButton";
-
 interface MainHeaderProps {}
 
 const MainHeader: FC<MainHeaderProps> = () => {

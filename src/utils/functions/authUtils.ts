@@ -1,6 +1,4 @@
-import axios from "axios";
 import { randomBytes, createHash } from "crypto";
-import { prisma } from "../database/prisma";
 
 export const generateRandomToken = () => {
     const resetToken = randomBytes(32).toString("hex");
@@ -18,31 +16,33 @@ export const hashToken = (token: string) => {
 
 export const signOutUser = async () => {
     try {
-        const { csrfToken } = await (await fetch(process.env.APP_URL + "/api/auth/csrf")).json();
-        console.log(csrfToken);
-        const signoutFD = new FormData();
-        signoutFD.set("csrfToken", csrfToken);
-        const data = await fetch(process.env.APP_URL + "/api/auth/signout?callbackUrl=/api/auth/session", {
-            method: "POST",
-            body: JSON.stringify({ csrfToken }),
-        });
-    } catch (err) {
-        console.log(err);
-    }
-};
+        const { csrfToken } = await (await fetch(`${process.env.APP_URL}/api/auth/csrf`)).json();
+        // const fetchOptions = {
+        //     method: "post",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         csrfToken,
+        //         callbackUrl: process.env.APP_URL,
+        //         json: true,
+        //     }),
+        // };
+        const fetchOptions = {
+            method: "post",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            // @ts-expect-error
+            body: new URLSearchParams({
+                csrfToken,
+                json: true,
+            }),
+        };
 
-export const resetPasswordIsValid = async (token: string) => {
-    try {
-        const user = await prisma.user.findFirst({
-            where: {
-                resetPasswordToken: token,
-            },
-            select: {
-                resetPasswordExpires: true,
-            },
-        });
-        if (!user || (user.resetPasswordExpires && user.resetPasswordExpires < new Date())) return false;
-        return true;
+        const res = await fetch(`${process.env.APP_URL}/api/auth/signout`, fetchOptions);
+        const data = await res.json();
+        return res.status === 200;
     } catch (err) {
         return false;
     }

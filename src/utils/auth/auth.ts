@@ -3,6 +3,7 @@ import { compare } from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "../database/prisma";
+import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -26,12 +27,12 @@ export const authOptions: NextAuthOptions = {
                     });
                     if (!user || !user.password || !(await compare(credentials.password, user.password)))
                         throw new Error("Email or Password Is Wrong", { cause: "INCORRECT_INPUT" });
-                    const { id, name, email, createdAt } = user;
+                    const { id, name, email, passwordChangedAt } = user;
                     return {
                         id,
                         name,
                         email,
-                        createdAt,
+                        passwordChangedAt,
                     };
                 } catch (err) {
                     if (err instanceof Error && err.message) {
@@ -48,36 +49,49 @@ export const authOptions: NextAuthOptions = {
     ],
     pages: {
         signIn: "/auth/signin",
-        // signOut: "/auth/signout",
+        signOut: "/auth/signout",
     },
     callbacks: {
-        // session: ({ session, token, user }) => {
-        //     return {
-        //         ...session,
-        //         user: {
-        //             ...session.user,
-        //         },
-        //     };
-        // },
-        // jwt: ({ token, user }) => {
-        //     if (!user) return token;
-        //     const u = user as unknown as User;
-        //     return {
-        //         ...token,
-        //     };
-        // },
-        signIn: ({ user, account, profile, email, credentials }) => {
-            if (account?.provider !== "google") return true;
-
+        session: ({ session, token, user }) => {
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    passwordChangedAt: token.passwordChangedAt,
+                },
+            };
+        },
+        jwt: ({ token, user }) => {
+            if (!user) return token;
+            const u = user as unknown as User;
+            return {
+                ...token,
+                passwordChangedAt: u.passwordChangedAt,
+            };
+        },
+        signIn: async ({ user, account, profile, email, credentials }) => {
+            if (account?.provider === "google") {
+                try {
+                    if (!user || !user.email || !user.name) return true;
+                    const u = await prisma.user.findUnique({
+                        where: {
+                            email: user.email,
+                        },
+                    });
+                    if (u) return true;
+                    await prisma.user.create({
+                        data: {
+                            name: user.name,
+                            email: user.email,
+                            image: user.image,
+                        },
+                    });
+                } catch (err) {
+                } finally {
+                    return true;
+                }
+            }
             return true;
         },
-    },
-    events: {
-        // signOut({ token, session }) {
-        //     console.log(token, session);
-        //     if (!session) {
-        //         console.log(session);
-        //     }
-        // },
     },
 };
