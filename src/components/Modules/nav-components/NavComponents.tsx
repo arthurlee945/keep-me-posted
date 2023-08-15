@@ -1,7 +1,7 @@
 "use client";
 import DarkModeToggle from "@/components/subComponents/DarkModeToggle";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import HeaderAuthButton from "./HeaderAuthButton";
 import { twMerge } from "tailwind-merge";
 import { LazyMotion, domAnimation, m } from "framer-motion";
@@ -12,6 +12,13 @@ interface NavComponentsProps {}
 const NavComponents: FC<NavComponentsProps> = () => {
     const viewport = useViewPortTracker();
     const [navVisible, setNavVisible] = useState(false);
+    useEffect(() => {
+        if (viewport === "mobile") {
+            document.body.setAttribute("style", navVisible ? "overflow:hidden;" : "");
+        } else if (navVisible) {
+            document.body.setAttribute("style", "");
+        }
+    }, [navVisible, viewport]);
     if (navVisible && viewport === "desktop") setNavVisible(false);
     return (
         <section className="relative flex items-center gap-x-3">
