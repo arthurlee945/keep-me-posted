@@ -4,8 +4,9 @@ module.exports = {
     darkMode: "class",
     theme: {
         screens: {
-            sm: { max: "639px" },
-            lg: { max: "1023px" },
+            mobile: { max: "639px" },
+            tablet: { min: "640px", max: "1023px" },
+            desktop: { min: "1024px" },
         },
         extend: {
             backgroundImage: {

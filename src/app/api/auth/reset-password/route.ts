@@ -1,5 +1,6 @@
 import { prisma } from "@/utils/database/prisma";
 import { hashToken } from "@/utils/functions/authUtils";
+import { Session } from "@prisma/client";
 import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -25,17 +26,20 @@ export async function POST(req: Request) {
         if (!user.resetPasswordExpires || user.resetPasswordExpires < new Date())
             return new NextResponse("Token is expired", { status: 402 });
         const hashed_password = await hash(password, 12);
-        await prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                passwordChangedAt: new Date(),
-                password: hashed_password,
-                resetPasswordExpires: null,
-                resetPasswordToken: null,
-            },
-        });
+        await prisma.$transaction([
+            prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    passwordChangedAt: new Date(),
+                    password: hashed_password,
+                    resetPasswordExpires: null,
+                    resetPasswordToken: null,
+                },
+            }),
+            prisma.session.deleteMany({ where: { userId: user.id } }),
+        ]);
         return NextResponse.json({
             status: "successful",
             message: "Password has been reset!",

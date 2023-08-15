@@ -1,7 +1,6 @@
 import { FC } from "react";
-import DarkModeToggle from "../subComponents/DarkModeToggle";
 import Link from "next/link";
-import HeaderAuthButton from "./HeaderAuthButton";
+import NavComponents from "./nav-components/NavComponents";
 interface MainHeaderProps {}
 
 const MainHeader: FC<MainHeaderProps> = () => {
@@ -10,10 +9,7 @@ const MainHeader: FC<MainHeaderProps> = () => {
             <Link className="font-semibold text-xl hover:tracking-widest transition-[letter-spacing]" href="/">
                 K.M.P.
             </Link>
-            <div className="flex items-center gap-x-3">
-                <DarkModeToggle />
-                <HeaderAuthButton />
-            </div>
+            <NavComponents />
         </header>
     );
 };

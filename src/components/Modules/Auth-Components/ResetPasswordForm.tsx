@@ -97,7 +97,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.div
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] sm:min-w-0 sm:w-full "
+                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-full "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >

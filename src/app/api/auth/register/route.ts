@@ -16,20 +16,33 @@ export async function POST(req: Request) {
     try {
         if (
             await prisma.user.findFirst({
-                where: { OR: [{ name }, { email }] },
-                select: {},
+                where: { email },
             })
         )
             return new NextResponse("username or email is already in use", { status: 400 });
         const hashed_password = await hash(password, 12);
         const { token, hashedToken } = generateRandomToken();
-        const user = await prisma.user.create({
-            data: {
-                name: name.trim(),
-                email: email.trim().toLocaleLowerCase(),
-                password: hashed_password,
-                emailVerificationToken: hashedToken,
-            },
+        const u = await prisma.$transaction(async (tx) => {
+            const user = await tx.user.create({
+                data: {
+                    name: name.trim(),
+                    email: email.trim().toLocaleLowerCase(),
+                    password: hashed_password,
+                    emailVerificationToken: hashedToken,
+                },
+            });
+            await tx.account.create({
+                data: {
+                    provider: "credneital",
+                    type: "email",
+                    user: {
+                        connect: {
+                            id: user.id,
+                        },
+                    },
+                },
+            });
+            return user;
         });
         //---------on create send email
         sendEmail({
@@ -42,7 +55,7 @@ export async function POST(req: Request) {
             `,
         });
 
-        return NextResponse.json({ status: "successful", user: { name: user.name, email: user.email } });
+        return NextResponse.json({ status: "successful", user: { name: u.name, email: u.email } });
     } catch (err: any) {
         return new NextResponse(err.message, { status: 500 });
     }

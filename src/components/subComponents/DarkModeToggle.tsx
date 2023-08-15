@@ -4,14 +4,18 @@ import { AnimatePresence, motion } from "framer-motion";
 //------------icons
 import Moon from "@/styles/icons/moon.svg";
 import Sun from "@/styles/icons/sun.svg";
+import { twMerge } from "tailwind-merge";
 
-const DarkModeToggle = () => {
+const DarkModeToggle = ({ className }: { className?: string }) => {
     const [darkMode, setDarkMode] = useDarkMode();
     return (
         <div
-            className={`w-14 border-[1px] flex h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
-                darkMode ? "justify-end" : "justify-start"
-            }`}
+            className={twMerge(
+                `w-14 border-[1px] flex h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
+                    darkMode ? "justify-end" : "justify-start"
+                }`,
+                className
+            )}
         >
             <motion.button
                 layout

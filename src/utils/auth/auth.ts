@@ -3,13 +3,18 @@ import { compare } from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "../database/prisma";
-import { User } from "@prisma/client";
-
+// import { createJwtToken, fromDate, generateRandomToken, signOutUser, userIsValid } from "../functions/authUtils";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { redirect } from "next/navigation";
+// import { cookies } from "next/headers";
+const adapter = PrismaAdapter(prisma);
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
         maxAge: 15 * 24 * 60 * 60,
+        updateAge: 24 * 60 * 60,
     },
+    adapter,
     providers: [
         CredentialsProvider({
             name: "KMP-credentials",
@@ -27,12 +32,12 @@ export const authOptions: NextAuthOptions = {
                     });
                     if (!user || !user.password || !(await compare(credentials.password, user.password)))
                         throw new Error("Email or Password Is Wrong", { cause: "INCORRECT_INPUT" });
-                    const { id, name, email, passwordChangedAt } = user;
+                    const { id, name, email } = user;
                     return {
                         id,
                         name,
                         email,
-                        passwordChangedAt,
+                        test: "test",
                     };
                 } catch (err) {
                     if (err instanceof Error && err.message) {
@@ -52,46 +57,35 @@ export const authOptions: NextAuthOptions = {
         signOut: "/auth/signout",
     },
     callbacks: {
-        session: ({ session, token, user }) => {
+        //* for Database strategy
+        // async signIn({ user, account, profile, email, credentials }) {
+        //     if (account?.provider !== "credentials" || !user || !adapter.createSession) return true;
+        //     const sessionToken = createJwtToken(user.id);
+        //     const sessionExp = fromDate(15 * 24 * 60 * 60);
+        //     await adapter.createSession({
+        //         sessionToken,
+        //         userId: user.id,
+        //         expires: sessionExp,
+        //     });
+        //     cookies().set("next-auth.session-token", sessionToken, {
+        //         expires: sessionExp,
+        //     });
+        //     return true;
+        // },
+        session: async ({ session, token, user }) => {
             return {
                 ...session,
                 user: {
                     ...session.user,
-                    passwordChangedAt: token.passwordChangedAt,
+                    iat: token.iat,
                 },
             };
         },
-        jwt: ({ token, user }) => {
-            if (!user) return token;
-            const u = user as unknown as User;
+        jwt: async ({ token, account, profile }) => {
             return {
                 ...token,
-                passwordChangedAt: u.passwordChangedAt,
             };
         },
-        signIn: async ({ user, account, profile, email, credentials }) => {
-            if (account?.provider === "google") {
-                try {
-                    if (!user || !user.email || !user.name) return true;
-                    const u = await prisma.user.findUnique({
-                        where: {
-                            email: user.email,
-                        },
-                    });
-                    if (u) return true;
-                    await prisma.user.create({
-                        data: {
-                            name: user.name,
-                            email: user.email,
-                            image: user.image,
-                        },
-                    });
-                } catch (err) {
-                } finally {
-                    return true;
-                }
-            }
-            return true;
-        },
     },
+    events: {},
 };
