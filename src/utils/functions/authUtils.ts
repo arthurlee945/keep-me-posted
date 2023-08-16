@@ -1,5 +1,5 @@
 import { randomBytes, createHash } from "crypto";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 export const generateRandomToken = () => {
     const resetToken = randomBytes(32).toString("hex");
@@ -15,13 +15,13 @@ export const hashToken = (token: string) => {
     return createHash("sha256").update(token).digest("hex");
 };
 
-export const createJwtToken = (id: string) => {
-    if (!process.env.NEXTAUTH_SECRET) throw new Error("JWT SECRET required");
-    return jwt.sign({ id }, process.env.NEXTAUTH_SECRET);
-};
-export const fromDate = (time: number, date = Date.now()) => {
-    return new Date(date + time * 1000);
-};
+// export const createJwtToken = (id: string) => {
+//     if (!process.env.NEXTAUTH_SECRET) throw new Error("JWT SECRET required");
+//     return jwt.sign({ id }, process.env.NEXTAUTH_SECRET);
+// };
+// export const fromDate = (time: number, date = Date.now()) => {
+//     return new Date(date + time * 1000);
+// };
 // export const signOutUser = async () => {
 //     try {
 //         const { csrfToken } = await (await fetch(`${process.env.APP_URL}/api/auth/csrf`)).json();

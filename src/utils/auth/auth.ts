@@ -72,20 +72,20 @@ export const authOptions: NextAuthOptions = {
         //     });
         //     return true;
         // },
-        session: async ({ session, token, user }) => {
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    iat: token.iat,
-                },
-            };
-        },
-        jwt: async ({ token, account, profile }) => {
-            return {
-                ...token,
-            };
-        },
+        // session: async ({ session, token, user }) => {
+        //     return {
+        //         ...session,
+        //         user: {
+        //             ...session.user,
+        //             iat: token.iat,
+        //         },
+        //     };
+        // },
+        // jwt: async ({ token, account, profile }) => {
+        //     return {
+        //         ...token,
+        //     };
+        // },
     },
     events: {},
 };

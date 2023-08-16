@@ -6,22 +6,27 @@ import HeaderAuthButton from "./HeaderAuthButton";
 import { twMerge } from "tailwind-merge";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import { useViewPortTracker } from "@/utils/hooks/useViewportTracker";
+import { useRouter } from "next/navigation";
+import { useRouteChangeStarted } from "@/utils/hooks/useRouteChangeStarted";
 
 interface NavComponentsProps {}
 
 const NavComponents: FC<NavComponentsProps> = () => {
     const viewport = useViewPortTracker();
     const [navVisible, setNavVisible] = useState(false);
+    const routeChangeStarted = useRouteChangeStarted();
     useEffect(() => {
         if (viewport === "mobile") {
             document.body.setAttribute("style", navVisible ? "overflow:hidden;" : "");
+            // document.getElementsByTagName("html")[0].setAttribute("style", navVisible ? "scrollbar-gutter:stable;" : "");
         } else if (navVisible) {
             document.body.setAttribute("style", "");
+            // document.getElementsByTagName("html")[0].setAttribute("style", "");
         }
     }, [navVisible, viewport]);
-    if (navVisible && viewport === "desktop") setNavVisible(false);
+    if ((navVisible && viewport === "desktop") || (viewport !== "desktop" && routeChangeStarted)) setNavVisible(false);
     return (
-        <section className="relative flex items-center gap-x-3">
+        <section className="flex items-center gap-x-3">
             <button
                 id="nav-button"
                 className={twMerge(
@@ -38,18 +43,20 @@ const NavComponents: FC<NavComponentsProps> = () => {
             <LazyMotion features={domAnimation}>
                 <m.nav
                     key={viewport + "-nav"}
-                    className={`flex gap-x-4 items-center
-                    tablet:absolute tablet:overflow-hidden tablet:-top-2 tablet:-right-1 tablet:border-[1px] tablet:px-3 tablet:flex-col tablet:backdrop-blur-md tablet:gap-y-4 tablet:w-[200px] 
-                    mobile:absolute mobile:overflow-hidden mobile:-top-4 mobile:-right-4 mobile:border-[1px] mobile:px-3 mobile:flex-col mobile:backdrop-blur-md mobile:gap-y-4 mobile:w-[calc(100vw-18px)] mobile:h-screen mobile:justify-around`}
+                    className={`flex gap-x-5 items-center
+                    tablet:absolute tablet:overflow-hidden tablet:top-1 tablet:right-2 tablet:border-[1px] tablet:px-3 tablet:flex-col tablet:backdrop-blur-md dark:tablet:backdrop-brightness-75 tablet:backdrop-brightness-125 tablet:gap-y-4 tablet:min-w-[250px] 
+                    mobile:absolute mobile:overflow-hidden mobile:-top-[1px] mobile:-right-[1px] mobile:border-[1px] mobile:px-3 mobile:flex-col mobile:backdrop-blur-md dark:mobile:backdrop-brightness-75 mobile:backdrop-brightness-125 mobile:gap-y-4 mobile:w-[calc(100%+2px)] mobile:h-screen mobile:justify-around`}
                     initial={{ height: 0, paddingBottom: 0, borderWidth: 0 }}
                     animate={{
-                        height: !navVisible ? 0 : viewport === "mobile" ? "calc(100vh - 18px)" : "auto",
+                        height: !navVisible ? 0 : viewport === "mobile" ? "calc(100vh - 9px)" : "auto",
                         borderWidth: navVisible ? 1 : 0,
                     }}
                     aria-hidden={!navVisible}
                 >
                     <DarkModeToggle className="tablet:mt-[60px]" />
-                    <Link href="/about">About</Link>
+                    <Link href="/about" className="font-bold text-lg hover:underline">
+                        About
+                    </Link>
                     <HeaderAuthButton className="tablet:mb-3" />
                 </m.nav>
             </LazyMotion>

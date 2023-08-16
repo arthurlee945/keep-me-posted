@@ -16,7 +16,11 @@ export default withAuth(
         callbacks: {
             authorized({ req, token }) {
                 const pathName = req.nextUrl.pathname;
-                if (pathName.match(/^\/($|api\/.*|auth\/(verify-email|signin|signout|register|forgot-password|reset-password))$/))
+                if (
+                    pathName.match(
+                        /^\/($|api\/.*|auth\/(verify-email|signin|signout|register|forgot-password|reset-password)|terms-and-conditions|about|contact-us)$/
+                    )
+                )
                     return true;
                 return !!token;
             },

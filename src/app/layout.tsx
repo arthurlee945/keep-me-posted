@@ -3,6 +3,8 @@ import "@/styles/font-face.css";
 import type { Metadata } from "next";
 import MainHeader from "@/components/Modules/MainHeader";
 import AuthProvider from "@/utils/auth/AuthProvider";
+import MainFooter from "@/components/Modules/MainFooter";
+
 export const metadata: Metadata = {
     title: "Keep Me Posted | Keep Your Dependencies Up To Date",
     description: "Web App to keep tabs on your depreciating packages for your projects",
@@ -20,6 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <AuthProvider>
                     <MainHeader />
                     {children}
+                    <MainFooter />
                 </AuthProvider>
             </body>
         </html>

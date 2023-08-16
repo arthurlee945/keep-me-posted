@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import "@/styles/font-face.css";
 import type { Metadata } from "next";
 import MainHeader from "@/components/Modules/MainHeader";

@@ -33,7 +33,7 @@ const CheckBoxInput: FC<CheckBoxInputProps> = ({ id, label, legal = false, error
                             By continuing, you are setting up an account with this app and agree to our{" "}
                             <Link
                                 className="text-blue-500 hover:underline font-semibold group-[.has-error]:text-red-500"
-                                href="/"
+                                href="/terms-and-conditions"
                                 target="_blank"
                             >
                                 Terms of Use
