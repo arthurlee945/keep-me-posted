@@ -7,10 +7,11 @@ import { twMerge } from "tailwind-merge";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import { useViewPortTracker } from "@/utils/hooks/useViewportTracker";
 import { useRouteChangeStarted } from "@/utils/hooks/useRouteChangeStarted";
+import DefaultButton from "@/components/subComponents/DefaultButton";
 
-interface NavComponentsProps {}
+interface ProjNavComponentsProps {}
 
-const NavComponents: FC<NavComponentsProps> = () => {
+const ProjNavComponents: FC<ProjNavComponentsProps> = () => {
   const viewport = useViewPortTracker();
   const [navVisible, setNavVisible] = useState(false);
   const routeChangeStarted = useRouteChangeStarted();
@@ -63,14 +64,22 @@ const NavComponents: FC<NavComponentsProps> = () => {
           aria-hidden={!navVisible}
         >
           <DarkModeToggle className="tablet:mt-[60px]" />
-          <Link href="/about" className="font-bold text-lg hover:underline">
-            About
+          <Link href="/projects" className="font-bold text-lg hover:underline">
+            My Projects
           </Link>
-          <HeaderAuthButton className="tablet:mb-3" />
+          <Link
+            href="/projects/support"
+            className="font-bold text-lg hover:underline"
+          >
+            Support
+          </Link>
+          <DefaultButton buttonType="link" href="my-account">
+            My Account
+          </DefaultButton>
         </m.nav>
       </LazyMotion>
     </section>
   );
 };
 
-export default NavComponents;
+export default ProjNavComponents;

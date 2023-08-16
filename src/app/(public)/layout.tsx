@@ -1,0 +1,23 @@
+import type { Metadata } from "next";
+import MainHeader from "@/components/Modules/MainHeader";
+import MainFooter from "@/components/Modules/MainFooter";
+
+export const metadata: Metadata = {
+  title: "Keep Me Posted | Keep Your Dependencies Up To Date",
+  description:
+    "Web App to keep tabs on your depreciating packages for your projects",
+};
+
+export default async function PublicLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <MainHeader />
+      {children}
+      <MainFooter />
+    </>
+  );
+}
