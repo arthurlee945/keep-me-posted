@@ -16,15 +16,15 @@ import axios, { AxiosError } from "axios";
 import TextArea from "../subComponents/form-parts/TextArea";
 import Link from "next/link";
 
-interface ContactUsFormProps {}
+interface SupportRequestFormProps {}
 
-const ContactUsSchema = z.object({
+const SupportRequestSchema = z.object({
     name: z.string().trim().min(1, "Name is required").max(100),
     email: z.string().trim().min(1, "Email is required").email("Invalid email"),
     message: z.string().trim(),
 });
 
-const ContactUsForm: FC<ContactUsFormProps> = () => {
+const SupportRequestForm: FC<SupportRequestFormProps> = () => {
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [{ loading, submitted, globalError }, setFormState] = useState<{
         loading: boolean;
@@ -41,7 +41,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
         resetField,
         setFocus,
         formState: { errors, dirtyFields },
-    } = useForm({ resolver: zodResolver(ContactUsSchema) });
+    } = useForm({ resolver: zodResolver(SupportRequestSchema) });
 
     const onSubmit = async ({ name, email, message }: FieldValues) => {
         setFormState((curr) => ({
@@ -59,7 +59,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
             return;
         }
         try {
-            await axios.post("/api/contact-route", { name, email, message, type: "contact" }, { signal: AbortSignal.timeout(30000) });
+            await axios.post("/api/contact-route", { name, email, message, type: "support" }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
@@ -94,7 +94,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-3xl font-semibold mb-3 text-center">Contact Us</h1>
+                            <h1 className="text-3xl font-semibold mb-3 text-center">Support Request</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -136,16 +136,28 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                                     />
                                     <SubmitButton disabled={loading}>Send Message</SubmitButton>
                                 </form>
+                                <div className="mt-6">
+                                    <p className="text-sm">
+                                        Want to submit issue on <span className="font-semibold">Github</span>?{" "}
+                                        <Link
+                                            className="font-semibold text-blue-500 hover:underline"
+                                            href="https://github.com/arthurlee945/keep-me-posted"
+                                            target="_blank"
+                                        >
+                                            Issue Submit
+                                        </Link>
+                                    </p>
+                                </div>
                             </>
                         ) : (
                             <>
-                                <h1 className="font-bold text-xl mb-2 text-center">Your Request is Sent!</h1>
+                                <h1 className="font-bold text-xl mb-2 text-center">Your Support Request is Sent!</h1>
                                 <p className="text-base text-center">We will get back to you shortly</p>
                                 <Link
                                     className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold self-center mt-5"
-                                    href="/"
+                                    href="/projects"
                                 >
-                                    Home
+                                    Back to Project
                                 </Link>
                             </>
                         )}
@@ -156,4 +168,4 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
     );
 };
 
-export default ContactUsForm;
+export default SupportRequestForm;

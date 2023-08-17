@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Link from "next/link";
-import NavComponents from "./nav-components/NavComponents";
+import NavComponents from "../nav-components/NavComponents";
 interface MainHeaderProps {}
 
 const MainHeader: FC<MainHeaderProps> = () => {
