@@ -1,10 +1,10 @@
-"use client";
-import { useDarkMode } from "@/utils/hooks/useDarkMode";
-import { AnimatePresence, motion } from "framer-motion";
+'use client';
+import { useDarkMode } from '@/utils/hooks/useDarkMode';
+import { AnimatePresence, motion } from 'framer-motion';
 //------------icons
-import Moon from "@/styles/icons/moon.svg";
-import Sun from "@/styles/icons/sun.svg";
-import { twMerge } from "tailwind-merge";
+import Moon from '@/styles/icons/moon.svg';
+import Sun from '@/styles/icons/sun.svg';
+import { twMerge } from 'tailwind-merge';
 
 const DarkModeToggle = ({ className }: { className?: string }) => {
     const [darkMode, setDarkMode] = useDarkMode();
@@ -12,7 +12,7 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
         <div
             className={twMerge(
                 `w-14 border-[1px] flex h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
-                    darkMode ? "justify-end" : "justify-start"
+                    darkMode ? 'justify-end' : 'justify-start'
                 }`,
                 className
             )}
@@ -29,8 +29,8 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
                         <motion.span
                             key="moon-icon"
                             className="flex w-full h-full"
-                            animate={{ rotate: "360deg" }}
-                            exit={{ rotate: "0deg" }}
+                            animate={{ rotate: '360deg' }}
+                            exit={{ rotate: '0deg' }}
                             transition={{ duration: 0.15 }}
                         >
                             <Moon />
@@ -39,8 +39,8 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
                         <motion.span
                             key="sun-icon"
                             className="flex w-full h-full"
-                            animate={{ rotate: "360deg" }}
-                            exit={{ rotate: "0deg" }}
+                            animate={{ rotate: '360deg' }}
+                            exit={{ rotate: '0deg' }}
                             transition={{ duration: 0.15 }}
                         >
                             <Sun />

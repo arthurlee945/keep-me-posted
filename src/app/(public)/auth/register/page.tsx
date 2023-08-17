@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/Modules/Auth-Components/RegisterForm";
+import RegisterForm from '@/components/Modules/Auth-Components/RegisterForm';
 
 const SignUp = async () => {
     return (

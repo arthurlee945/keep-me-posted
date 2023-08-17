@@ -10,13 +10,13 @@
 
 html,
 body {
-    font-family: "Hubot Sans", sans-serif;
+    font-family: 'Hubot Sans', sans-serif;
 }
-*{
-    color:inherit;
+* {
+    color: inherit;
     box-sizing: border-box;
-    border-color:inherit;
+    border-color: inherit;
 }
-.grecaptcha-badge{
-    visibility:hidden;
+.grecaptcha-badge {
+    visibility: hidden;
 }

@@ -1,12 +1,15 @@
-import { m } from "framer-motion";
-import { FC } from "react";
-import CloseIcon from "@/styles/icons/Close.svg";
+import { m } from 'framer-motion';
+import { FC } from 'react';
+import CloseIcon from '@/styles/icons/Close.svg';
 interface GlobalErrorMessageProps {
     error: string;
     closeError: () => void;
 }
 
-const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({ error, closeError }) => {
+const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({
+    error,
+    closeError,
+}) => {
     return (
         <m.div
             className="flex items-center justify-between p-2 border-[1px] gap-x-6 border-red-600 rounded-[5px]"

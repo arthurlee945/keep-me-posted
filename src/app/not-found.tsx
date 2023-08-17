@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-    title: "Keep Me Posted | 404 Page",
-    description: "Looks Like you landed in a wrong page for KEEP ME POSTED",
+    title: 'Keep Me Posted | 404 Page',
+    description: 'Looks Like you landed in a wrong page for KEEP ME POSTED',
 };
 
 const NotFound = () => {

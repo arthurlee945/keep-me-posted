@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer';
 
 type messageOptType = {
     from?: string;
@@ -10,7 +10,7 @@ type messageOptType = {
 export const sendEmail = async (messageOpt: messageOptType) => {
     const { EMAIL_USERNAME, EMAIL_PASSWORD } = process.env;
     const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: 'gmail',
         auth: {
             user: EMAIL_USERNAME,
             pass: EMAIL_PASSWORD,
@@ -24,14 +24,14 @@ export const sendEmail = async (messageOpt: messageOptType) => {
     try {
         const res = await transporter.sendMail(message);
         return {
-            status: "success",
-            message: "email is sent successfully",
+            status: 'success',
+            message: 'email is sent successfully',
             data: JSON.stringify(res),
         };
     } catch (err) {
         console.error(err);
         return {
-            status: "failed",
+            status: 'failed',
             message: JSON.stringify(err),
         };
     }

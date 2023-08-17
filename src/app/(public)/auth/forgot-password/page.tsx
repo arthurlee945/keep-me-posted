@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "@/components/Modules/Auth-Components/ForgotPasswordForm";
+import ForgotPasswordForm from '@/components/Modules/Auth-Components/ForgotPasswordForm';
 
 const ForgotPassword = async () => {
     return (

@@ -1,9 +1,9 @@
-import { randomBytes, createHash } from "crypto";
+import { randomBytes, createHash } from 'crypto';
 // import jwt from "jsonwebtoken";
 
 export const generateRandomToken = () => {
-    const resetToken = randomBytes(32).toString("hex");
-    const hashedToken = createHash("sha256").update(resetToken).digest("hex");
+    const resetToken = randomBytes(32).toString('hex');
+    const hashedToken = createHash('sha256').update(resetToken).digest('hex');
     return {
         token: resetToken,
         hashedToken: hashedToken,
@@ -12,7 +12,7 @@ export const generateRandomToken = () => {
 };
 
 export const hashToken = (token: string) => {
-    return createHash("sha256").update(token).digest("hex");
+    return createHash('sha256').update(token).digest('hex');
 };
 
 // export const createJwtToken = (id: string) => {

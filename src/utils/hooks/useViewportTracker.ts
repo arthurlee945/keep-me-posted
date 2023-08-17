@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const [mobile, tablet] = [639, 1023];
 
 export const useViewPortTracker = () => {
-    const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
+    const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>(
+        'desktop'
+    );
 
     useEffect(() => {
         let prevWidth: number | undefined = undefined;
@@ -12,24 +14,27 @@ export const useViewPortTracker = () => {
             if (
                 prevWidth &&
                 ((currentWidth > tablet && prevWidth > tablet) ||
-                    (currentWidth <= tablet && currentWidth > mobile && prevWidth <= tablet && prevWidth > mobile) ||
+                    (currentWidth <= tablet &&
+                        currentWidth > mobile &&
+                        prevWidth <= tablet &&
+                        prevWidth > mobile) ||
                     (currentWidth <= mobile && prevWidth <= mobile))
             )
                 return;
 
             if (currentWidth > tablet) {
-                setViewport("desktop");
+                setViewport('desktop');
             } else if (currentWidth > mobile && tablet >= currentWidth) {
-                setViewport("tablet");
+                setViewport('tablet');
             } else {
-                setViewport("mobile");
+                setViewport('mobile');
             }
             prevWidth = currentWidth;
         };
-        window.addEventListener("resize", handleVPTrack);
-        window.dispatchEvent(new Event("resize"));
+        window.addEventListener('resize', handleVPTrack);
+        window.dispatchEvent(new Event('resize'));
         return () => {
-            window.removeEventListener("resize", handleVPTrack);
+            window.removeEventListener('resize', handleVPTrack);
         };
     }, []);
 

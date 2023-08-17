@@ -1,19 +1,19 @@
-import { PrismaClient, Role } from "@prisma/client";
-import { hash } from "bcryptjs";
+import { PrismaClient, Role } from '@prisma/client';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
-    const password = await hash("qwer1234", 12);
+    const password = await hash('qwer1234', 12);
     const account = await prisma.$transaction(async (tx) => {
         const user = await tx.user.upsert({
-            where: { email: "admin@admin.com" },
+            where: { email: 'admin@admin.com' },
             update: {
                 password,
             },
             create: {
-                name: "admin",
-                email: "admin@admin.com",
+                name: 'admin',
+                email: 'admin@admin.com',
                 role: Role.ADMIN,
                 password,
             },
@@ -23,8 +23,8 @@ async function main() {
             where: { userId: user.id },
             update: {},
             create: {
-                provider: "credneital",
-                type: "email",
+                provider: 'credneital',
+                type: 'email',
                 user: {
                     connect: {
                         id: user.id,
