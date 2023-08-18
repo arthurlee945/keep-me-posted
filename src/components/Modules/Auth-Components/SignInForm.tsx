@@ -1,20 +1,20 @@
 'use client';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { useForm, FieldValues } from 'react-hook-form';
-import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion';
-import Link from 'next/link';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { useRouter } from 'next/navigation';
+import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { FieldValues, useForm } from 'react-hook-form';
+import { z } from 'zod';
 //-----------------custom
 import GlobalErrorMessage from '@/components/subComponents/form-parts/GlobalErrorMessage';
-import GoogleIcon from '@/styles/icons/google.svg';
-import TextInput from '@/components/subComponents/form-parts/TextInput';
-import SubmitButton from '@/components/subComponents/form-parts/SubmitButton';
-import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
 import LoadingContainer from '@/components/subComponents/form-parts/LoadingContainer';
+import SubmitButton from '@/components/subComponents/form-parts/SubmitButton';
+import TextInput from '@/components/subComponents/form-parts/TextInput';
+import GoogleIcon from '@/styles/icons/google.svg';
+import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
 
 const signInSchema = z.object({
     email: z.string().trim().min(1, 'Email is required').email('Invalid email'),
@@ -62,7 +62,7 @@ const SignInForm = () => {
                 redirect: false,
             });
             if (!signInRes?.error) {
-                router.push('/');
+                router.push('/projects');
             } else {
                 setFormState((curr) => ({
                     ...curr,
@@ -141,7 +141,7 @@ const SignInForm = () => {
                             className="flex items-center justify-center gap-x-3"
                             type="button"
                             onClick={() => {
-                                signIn('google', { callbackUrl: '/' });
+                                signIn('google', { callbackUrl: '/projects' });
                             }}
                             disabled={loading}
                         >

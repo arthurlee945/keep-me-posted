@@ -1,20 +1,20 @@
 'use client';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { useForm, FieldValues } from 'react-hook-form';
-import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion';
+import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
 import Link from 'next/link';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { FieldValues, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 //-----------------custom
-import GlobalErrorMessage from '@/components/subComponents/form-parts/GlobalErrorMessage';
-import TextInput from '@/components/subComponents/form-parts/TextInput';
-import SubmitButton from '@/components/subComponents/form-parts/SubmitButton';
-import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
-import LoadingContainer from '@/components/subComponents/form-parts/LoadingContainer';
 import CheckBoxInput from '@/components/subComponents/form-parts/CheckBoxInput';
+import GlobalErrorMessage from '@/components/subComponents/form-parts/GlobalErrorMessage';
+import LoadingContainer from '@/components/subComponents/form-parts/LoadingContainer';
+import SubmitButton from '@/components/subComponents/form-parts/SubmitButton';
+import TextInput from '@/components/subComponents/form-parts/TextInput';
+import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
 import axios, { AxiosError } from 'axios';
 import { signIn } from 'next-auth/react';
 
@@ -92,7 +92,7 @@ const RegisterForm = () => {
                 redirect: false,
             });
             if (!signInRes?.error) {
-                router.push('/');
+                router.push('/projects');
             } else {
                 router.push('/auth/signin');
             }

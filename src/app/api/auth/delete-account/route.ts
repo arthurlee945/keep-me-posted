@@ -8,14 +8,16 @@ export async function POST() {
     try {
         await prisma.$transaction(async (tx) => {
             if (!session.user || !session.user.email)
-                throw new Error('Bad Request');
+                return new NextResponse('You are not logged in', {
+                    status: 400,
+                });
             const user = await tx.user.findUnique({
                 where: {
                     email: session.user?.email,
                 },
             });
             if (!user)
-                throw NextResponse.json({
+                return NextResponse.json({
                     status: 'successful',
                     message: 'user does not exists',
                 });

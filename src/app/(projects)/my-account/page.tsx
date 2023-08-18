@@ -1,4 +1,5 @@
 import DeleteAccountButton from '@/components/subComponents/accountParts/DeleteAccountButton';
+import EditAccountButton from '@/components/subComponents/accountParts/EditAccountButton';
 import SignOutButton from '@/components/subComponents/accountParts/SignOutButton';
 import { authOptions } from '@/utils/auth/auth';
 import { Metadata } from 'next';
@@ -16,24 +17,35 @@ export default async function MyAccountPage() {
     return (
         <main className="flex flex-1 px-8 py-5 flex-col gap-y-5 tablet:px-5 mobile:px-3">
             <section className="flex justify-between items-center">
-                <h1 className="text-2xl font-semibold">My Account</h1>
+                <h1 className="text-3xl font-semibold">My Account</h1>
                 <SignOutButton />
             </section>
-            <section className="grid grid-cols-3 grid-rows-3 gap-y-8 w-full border-[1px] rounded-lg py-5 px-4">
+            <section className="grid grid-cols-3 grid-rows-3 gap-y-8 gap-x-2 w-full border-[1px] rounded-lg py-5 px-4 items-center shadow-md">
                 <>
                     <p className="font-bold text-lg">Name</p>
-                    <p className="text-base">{session.user.name}</p>
-                    <p className="place-self-center">Buuton</p>
+                    <p className="text-base">
+                        {session.user.name || 'Not Set'}
+                    </p>
+                    <EditAccountButton
+                        field="name"
+                        className="justify-self-center"
+                    />
                 </>
                 <>
                     <p className="font-bold text-lg">Email</p>
                     <p className="text-base">{session.user.email}</p>
-                    <p className="place-self-center">Buuton</p>
+                    <EditAccountButton
+                        field="email"
+                        className="justify-self-center"
+                    />
                 </>
                 <>
                     <p className="font-bold text-lg">Password</p>
                     <p className="text-lg">********</p>
-                    <p className="place-self-center">Buuton</p>
+                    <EditAccountButton
+                        field="password"
+                        className="justify-self-center"
+                    />
                 </>
             </section>
             <DeleteAccountButton />
