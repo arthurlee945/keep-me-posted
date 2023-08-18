@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { prisma } from '@/utils/database/prisma';
 import { generateRandomToken } from '@/utils/functions/authUtils';
 import { sendEmail } from '@/utils/functions/mailer';
-import { prisma } from '@/utils/database/prisma';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
     const { email } = (await req.json()) as { email: string };
@@ -14,6 +14,9 @@ export async function POST(req: Request) {
         const user = await prisma.user.findUnique({
             where: {
                 email,
+            },
+            select: {
+                id: true,
             },
         });
         if (!user)
@@ -40,6 +43,9 @@ export async function POST(req: Request) {
             data: {
                 resetPasswordToken: hashedToken,
                 resetPasswordExpires: new Date(expires),
+            },
+            select: {
+                id: true,
             },
         });
         return NextResponse.json({

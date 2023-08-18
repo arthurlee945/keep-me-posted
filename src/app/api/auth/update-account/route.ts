@@ -46,7 +46,7 @@ export async function PUT(req: Request) {
                 ...passwordField,
             },
             select: {
-                email: true,
+                id: true,
             },
         });
         if (!user)

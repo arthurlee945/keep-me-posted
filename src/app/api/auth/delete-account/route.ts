@@ -16,6 +16,9 @@ export async function POST() {
                 where: {
                     email: session.user?.email,
                 },
+                select: {
+                    id: true,
+                },
             });
             if (!user)
                 return NextResponse.json({

@@ -46,6 +46,9 @@ export async function PUT(req: Request) {
                     resetPasswordExpires: null,
                     resetPasswordToken: null,
                 },
+                select: {
+                    id: true,
+                },
             }),
             prisma.session.deleteMany({ where: { userId: user.id } }),
         ]);

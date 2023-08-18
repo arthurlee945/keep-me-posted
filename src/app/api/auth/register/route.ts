@@ -20,6 +20,9 @@ export async function POST(req: Request) {
         if (
             await prisma.user.findFirst({
                 where: { email },
+                select: {
+                    id: true,
+                },
             })
         )
             return new NextResponse('username or email is already in use', {
@@ -34,6 +37,11 @@ export async function POST(req: Request) {
                     email: email.trim().toLocaleLowerCase(),
                     password: hashed_password,
                     emailVerificationToken: hashedToken,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
                 },
             });
             await tx.account.create({

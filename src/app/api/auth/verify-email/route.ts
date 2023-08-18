@@ -31,6 +31,9 @@ export async function POST(req: Request) {
                 emailVerificationToken: '',
                 emailVerified: true,
             },
+            select: {
+                id: true,
+            },
         });
         return NextResponse.json({
             status: 'successful',
