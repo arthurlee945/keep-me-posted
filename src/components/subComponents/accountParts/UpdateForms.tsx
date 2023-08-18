@@ -1,7 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { FieldValues, useForm } from 'react-hook-form';
@@ -13,6 +12,7 @@ import LoadingContainer from '@/components/subComponents/form-parts/LoadingConta
 import TextInput from '@/components/subComponents/form-parts/TextInput';
 import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
 import axios, { AxiosError } from 'axios';
+import { signOut, useSession } from 'next-auth/react';
 
 const NameUpdateSchema = z.object({
     name: z.string().trim().min(1, 'Name is Required'),
@@ -42,7 +42,7 @@ interface UpdateFormsProps {
 }
 
 const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
-    const router = useRouter();
+    const { update } = useSession();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [{ loading, globalError }, setFormState] = useState<{
         loading: boolean;
@@ -83,11 +83,20 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
             return;
         }
         try {
-            const res = await axios.post('/api/auth/update-account', data, {
+            const res = await axios.put('/api/auth/update-account', data, {
                 signal: AbortSignal.timeout(30000),
             });
             if (res.status === 200) {
-                router.refresh();
+                if (field === 'password') return signOut({ callbackUrl: '/' });
+                else
+                    await update(
+                        field === 'name'
+                            ? { name: data.name }
+                            : field === 'email'
+                            ? { email: data.email }
+                            : undefined
+                    );
+                return closeModal();
             } else {
                 setFormState((curr) => ({
                     ...curr,
@@ -152,6 +161,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                                     field[0].toUpperCase() +
                                     field.slice(1).toLowerCase()
                                 }
+                                type={field === 'password' ? field : undefined}
                                 errors={errors[field]}
                                 isDirty={dirtyFields[field]}
                                 register={register}

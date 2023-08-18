@@ -1,9 +1,10 @@
+import { authOptions } from '@/utils/auth/auth';
 import { prisma } from '@/utils/database/prisma';
 import { getServerSession } from 'next-auth';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 export async function POST() {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
     if (!session) return new NextResponse('Unauthorized', { status: 401 });
     try {
         await prisma.$transaction(async (tx) => {

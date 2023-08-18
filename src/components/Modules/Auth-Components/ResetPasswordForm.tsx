@@ -1,12 +1,11 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
+import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { FieldValues, useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import Link from 'next/link';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 //-----------------custom
 import GlobalErrorMessage from '@/components/subComponents/form-parts/GlobalErrorMessage';
 import LoadingContainer from '@/components/subComponents/form-parts/LoadingContainer';
@@ -72,7 +71,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
             return;
         }
         try {
-            await axios.post(
+            await axios.put(
                 '/api/auth/reset-password',
                 { token, password },
                 { signal: AbortSignal.timeout(30000) }

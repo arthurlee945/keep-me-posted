@@ -7,7 +7,7 @@ import { hash } from 'bcryptjs';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.email)
         return new NextResponse('Unauthorized', { status: 401 });
@@ -30,6 +30,7 @@ export async function POST(req: Request) {
             emailField.emailVerified = false;
         }
         //----------------- password update
+        // ! Seperate Password Update into Different route for other builds
         let passwordField: { password?: string } = {};
         if (password) {
             const hashed_password = await hash(password, 12);

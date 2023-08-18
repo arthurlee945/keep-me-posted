@@ -9,7 +9,7 @@ type ResetPasswordProps = {
     token: string;
 };
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
     const { password, token } = (await req.json()) as ResetPasswordProps;
     if (!password || !token)
         return new NextResponse('Please include valid request', {

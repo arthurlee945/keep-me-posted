@@ -79,20 +79,22 @@ export const authOptions: NextAuthOptions = {
         //     });
         //     return true;
         // },
-        // session: async ({ session, token, user }) => {
-        //     return {
-        //         ...session,
-        //         user: {
-        //             ...session.user,
-        //             iat: token.iat,
-        //         },
-        //     };
-        // },
-        // jwt: async ({ token, account, profile }) => {
-        //     return {
-        //         ...token,
-        //     };
-        // },
+        session: async ({ session, token }) => {
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    name: token.name,
+                    email: token.email,
+                },
+            };
+        },
+        jwt: async ({ token, session, trigger }) => {
+            if (trigger === 'update') {
+                token = { ...token, ...session };
+            }
+            return token;
+        },
     },
     events: {},
 };
