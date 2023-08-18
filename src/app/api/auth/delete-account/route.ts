@@ -15,7 +15,10 @@ export async function POST() {
                 },
             });
             if (!user)
-                throw new NextResponse('User does not exits', { status: 400 });
+                throw NextResponse.json({
+                    status: 'successful',
+                    message: 'user does not exists',
+                });
             await tx.user.delete({
                 where: {
                     id: user.id,
