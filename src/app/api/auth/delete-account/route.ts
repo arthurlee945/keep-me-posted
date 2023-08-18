@@ -1,7 +1,7 @@
 import { prisma } from '@/utils/database/prisma';
 import { getServerSession } from 'next-auth';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-
 export async function POST() {
     const session = await getServerSession();
     if (!session) return new NextResponse('Unauthorized', { status: 401 });
@@ -14,12 +14,18 @@ export async function POST() {
                     email: session.user?.email,
                 },
             });
-            if (!user) throw new Error('User does not exits');
+            if (!user)
+                throw new NextResponse('User does not exits', { status: 400 });
             await tx.user.delete({
                 where: {
                     id: user.id,
                 },
             });
+        });
+        cookies().delete('next-auth.session-token');
+        return NextResponse.json({
+            status: 'successful',
+            message: 'user deleted',
         });
     } catch (err) {
         return new NextResponse(JSON.stringify(err), { status: 500 });

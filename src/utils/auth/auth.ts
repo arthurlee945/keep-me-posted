@@ -1,9 +1,9 @@
-import type { NextAuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { compare } from 'bcryptjs';
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '../database/prisma';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 const adapter = PrismaAdapter(prisma);
 export const authOptions: NextAuthOptions = {
@@ -75,6 +75,7 @@ export const authOptions: NextAuthOptions = {
         //     });
         //     cookies().set("next-auth.session-token", sessionToken, {
         //         expires: sessionExp,
+        //         httpOnly: true,
         //     });
         //     return true;
         // },
