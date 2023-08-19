@@ -3,7 +3,7 @@
         "next",
         "next/core-web-vitals",
         "eslint:recommended",
-        "@tanstack/query"
+        "plugin:@tanstack/eslint-plugin-query/recommended"
     ],
     "globals": {
         "React": "readonly"
