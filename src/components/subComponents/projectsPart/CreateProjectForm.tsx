@@ -15,9 +15,17 @@ import TextInput from '@/components/subComponents/form-parts/TextInput';
 import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
 import axios, { AxiosError } from 'axios';
 import { signIn } from 'next-auth/react';
+import FileInput from '../form-parts/FileInput';
 
 const CreateProjectSchema = z.object({
     title: z.string().trim().min(1, 'title is required').max(100),
+    packageJson: z
+        .any()
+        .refine(
+            (file) => file.type === 'application/json',
+            'Only .json formats are supported'
+        )
+        .refine((file) => file.size <= 500000, 'Max file size is 5MB'),
 });
 
 export type CreateProjectFields = z.infer<typeof CreateProjectSchema>;
@@ -100,9 +108,7 @@ const CreateProjectForm = () => {
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-3xl font-semibold mb-5 ">
-                        Create A Project
-                    </h1>
+                    <h1 className="text-3xl font-semibold">Create A Project</h1>
                     {globalError && (
                         <GlobalErrorMessage
                             error={globalError}
@@ -125,6 +131,14 @@ const CreateProjectForm = () => {
                                 label="Title"
                                 errors={errors.title}
                                 isDirty={dirtyFields.title}
+                                register={register}
+                                resetField={resetField}
+                            />
+                            <FileInput
+                                id="packageJson"
+                                label="Package.json"
+                                errors={errors.packageJson}
+                                isDirty={dirtyFields.packageJson}
                                 register={register}
                                 resetField={resetField}
                             />
