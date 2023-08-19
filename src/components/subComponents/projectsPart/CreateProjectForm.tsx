@@ -136,7 +136,6 @@ const CreateProjectForm = () => {
                             />
                             <FileInput
                                 id="packageJson"
-                                label="Package.json"
                                 errors={errors.packageJson}
                                 isDirty={dirtyFields.packageJson}
                                 register={register}

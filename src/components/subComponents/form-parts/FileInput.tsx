@@ -20,7 +20,6 @@ interface FileInputProps {
 
 const FileInput: FC<FileInputProps> = ({
     id,
-    label,
     errors,
     isDirty,
     register,
