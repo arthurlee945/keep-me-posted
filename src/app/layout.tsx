@@ -7,7 +7,6 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    // const session = await getServerSession();
     return (
         <html lang="en" className="dark ">
             <body
@@ -16,7 +15,7 @@ export default async function RootLayout({
                 bg-zinc-50 dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-50 
                 selection:text-zinc-50 selection:bg-zinc-900 dark:selection:text-zinc-900 dark:selection:bg-zinc-50"
             >
-                <AuthProvider session={null}>{children}</AuthProvider>
+                <AuthProvider>{children}</AuthProvider>
             </body>
         </html>
     );

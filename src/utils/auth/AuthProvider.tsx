@@ -5,7 +5,7 @@ import { FC, ReactNode } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 interface AuthProviderProps {
     children?: ReactNode;
-    session: Session | null | undefined;
+    session?: Session | null | undefined;
 }
 
 const AuthProvider: FC<AuthProviderProps> = ({ children, session }) => {
