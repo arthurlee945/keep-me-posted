@@ -11,7 +11,6 @@ import FormErrorMessage from './FormErrorMessage';
 
 interface FileInputProps {
     id: string;
-    label: string;
     errors: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
     isDirty: boolean;
     register: UseFormRegister<FieldValues>;
