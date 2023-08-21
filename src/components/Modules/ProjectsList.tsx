@@ -20,12 +20,14 @@ const ProjectsList: FC<ProjectsListProps> = ({ initialData }) => {
     const [fetchedAllProj, setFetchedAllProj] = useState(false);
     const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ['project-query'],
+        cacheTime: 0,
         queryFn: async ({ pageParam = 1 }) => {
             const { projects } = (await axios.post('/api/project/findMany', { page: pageParam })).data;
             if (projects.length < 4) setFetchedAllProj(true);
             return projects;
         },
         getNextPageParam: (_, pages) => {
+            if (fetchedAllProj) return pages.length;
             return pages.length + 1;
         },
         initialData: {
@@ -33,6 +35,7 @@ const ProjectsList: FC<ProjectsListProps> = ({ initialData }) => {
             pageParams: [1],
         },
     });
+
     const projects = data?.pages.flatMap((p) => p);
     const lastProjIndex = projects && projects.length - 1;
     return (
@@ -46,7 +49,7 @@ const ProjectsList: FC<ProjectsListProps> = ({ initialData }) => {
                         fetchNextPage={fetchNextPage}
                     />
                 ))}
-            {isFetchingNextPage && new Array(4).fill(undefined).map((_, i) => <ProjectCardLoader key={'project-placeholder' + i} />)}
+            {isFetchingNextPage && <ProjectCardLoader />}
         </section>
     );
 };

@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const { title, packageData } = (await req.json()) as ProjectCreateProps;
     try {
         const { dependencies, devDependencies, peerDependencies } = JSON.parse(packageData);
-        if (!dependencies && !devDependencies && !peerDependencies)
+        if ((!dependencies || typeof Object.values(dependencies)[0] !== 'string') && !devDependencies && !peerDependencies)
             return NextResponse.json('There are no dependencies listed', { status: 400 });
         const user = await prisma.user.findUnique({
             where: {
