@@ -14,10 +14,6 @@ const FileInput: FC<FileInputProps> = ({ id, errors, isDirty, register, resetFie
     const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files?.length > 0) return;
         resetField(id, { defaultValue: undefined, keepDirty: false });
-        // console.log(URL.createObjectURL(e.target.files[0]));
-        // fetch(URL.createObjectURL(e.target.files[0]))
-        //     .then((res) => res.json())
-        //     .then((data) => console.log(data));
     };
     return (
         <div className="relative flex flex-col justify-center w-full gap-y-[2px]">
