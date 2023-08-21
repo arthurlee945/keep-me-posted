@@ -6,7 +6,7 @@ interface DeleteProjectButtonProps {
 }
 
 const DeleteProjectButton: FC<DeleteProjectButtonProps> = ({ projectId }) => {
-    return <></>;
+    return <button>{projectId}</button>;
 };
 
 export default DeleteProjectButton;
