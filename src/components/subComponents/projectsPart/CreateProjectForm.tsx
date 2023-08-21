@@ -39,13 +39,12 @@ const CreateProjectForm = () => {
         handleSubmit,
         resetField,
         setFocus,
-        getValues,
-        setValue,
+        setError,
         formState: { errors, dirtyFields },
     } = useForm({ resolver: zodResolver(CreateProjectSchema) });
 
     const onSubmit = async ({ title, packageJson }: FieldValues) => {
-        console.log(title, packageJson);
+        console.log(title, packageJson[0]);
         // setFormState((curr) => ({
         //     ...curr,
         //     loading: true,

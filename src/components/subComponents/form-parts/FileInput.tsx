@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react';
-import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister, UseFormResetField, UseFormSetError } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister, UseFormResetField } from 'react-hook-form';
 import FormErrorMessage from './FormErrorMessage';
 
 interface FileInputProps {
@@ -7,7 +7,6 @@ interface FileInputProps {
     errors: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
     isDirty: boolean;
     register: UseFormRegister<FieldValues>;
-    setError: UseFormSetError<FieldValues>;
     resetField: UseFormResetField<FieldValues>;
 }
 
