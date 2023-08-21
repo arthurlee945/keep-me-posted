@@ -12,20 +12,15 @@ import GlobalErrorMessage from '@/components/subComponents/form-parts/GlobalErro
 import LoadingContainer from '@/components/subComponents/form-parts/LoadingContainer';
 import SubmitButton from '@/components/subComponents/form-parts/SubmitButton';
 import TextInput from '@/components/subComponents/form-parts/TextInput';
-import { handleRecaptchaValidation } from '@/utils/functions/handleRecaptchaValidation';
-import axios, { AxiosError } from 'axios';
-import { signIn } from 'next-auth/react';
 import FileInput from '../form-parts/FileInput';
 
 const CreateProjectSchema = z.object({
     title: z.string().trim().min(1, 'title is required').max(100),
     packageJson: z
         .any()
-        .refine(
-            (file) => file.type === 'application/json',
-            'Only .json formats are supported'
-        )
-        .refine((file) => file.size <= 500000, 'Max file size is 5MB'),
+        .refine((file) => file && file.length > 0, 'package.json is requried')
+        .refine((file) => file && file.length > 0 && file[0].type === 'application/json', 'Only .json formats are supported')
+        .refine((file) => file && file.length > 0 && file[0]?.size < 1000000, 'Max file size is 1mb'),
 });
 
 export type CreateProjectFields = z.infer<typeof CreateProjectSchema>;
@@ -44,58 +39,61 @@ const CreateProjectForm = () => {
         handleSubmit,
         resetField,
         setFocus,
+        getValues,
+        setValue,
         formState: { errors, dirtyFields },
     } = useForm({ resolver: zodResolver(CreateProjectSchema) });
 
-    const onSubmit = async ({ username, email, password }: FieldValues) => {
-        setFormState((curr) => ({
-            ...curr,
-            loading: true,
-            globalError: null,
-        }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
-        if (!recaptchaValidate || recaptchaValidate !== 'successful') {
-            setFormState((curr) => ({
-                ...curr,
-                loading: false,
-                globalError: 'ReCaptcha Failed',
-            }));
-            return;
-        }
-        try {
-            await axios.post(
-                '/api/auth/register',
-                { name: username, email, password },
-                { signal: AbortSignal.timeout(30000) }
-            );
-            const signInRes = await signIn('credentials', {
-                email,
-                password,
-                redirect: false,
-            });
-            if (!signInRes?.error) {
-                router.push('/projects');
-            } else {
-                router.push('/auth/signin');
-            }
-        } catch (err) {
-            if (err instanceof AxiosError) {
-                setFormState((curr) => ({
-                    ...curr,
-                    loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
-                }));
-            } else {
-                setFormState((curr) => ({
-                    ...curr,
-                    loading: false,
-                    globalError: 'Sorry Something Went Wrong',
-                }));
-            }
-        }
+    const onSubmit = async ({ title, packageJson }: FieldValues) => {
+        console.log(title, packageJson);
+        // setFormState((curr) => ({
+        //     ...curr,
+        //     loading: true,
+        //     globalError: null,
+        // }));
+        // const recaptchaValidate =
+        //     await handleRecaptchaValidation(executeRecaptcha);
+        // if (!recaptchaValidate || recaptchaValidate !== 'successful') {
+        //     setFormState((curr) => ({
+        //         ...curr,
+        //         loading: false,
+        //         globalError: 'ReCaptcha Failed',
+        //     }));
+        //     return;
+        // }
+        // try {
+        //     await axios.post(
+        //         '/api/auth/register',
+        //         { name: username, email, password },
+        //         { signal: AbortSignal.timeout(30000) }
+        //     );
+        //     const signInRes = await signIn('credentials', {
+        //         email,
+        //         password,
+        //         redirect: false,
+        //     });
+        //     if (!signInRes?.error) {
+        //         router.push('/projects');
+        //     } else {
+        //         router.push('/auth/signin');
+        //     }
+        // } catch (err) {
+        //     if (err instanceof AxiosError) {
+        //         setFormState((curr) => ({
+        //             ...curr,
+        //             loading: false,
+        //             globalError:
+        //                 `${(err as AxiosError).response?.data}` ||
+        //                 'Sorry Something Went Wrong',
+        //         }));
+        //     } else {
+        //         setFormState((curr) => ({
+        //             ...curr,
+        //             loading: false,
+        //             globalError: 'Sorry Something Went Wrong',
+        //         }));
+        //     }
+        // }
     };
     useEffect(() => {
         setFocus('name');
@@ -122,10 +120,7 @@ const CreateProjectForm = () => {
                     )}
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
-                        <form
-                            className="flex flex-col gap-y-4"
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
+                        <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
                                 id="title"
                                 label="Title"
@@ -141,9 +136,7 @@ const CreateProjectForm = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <SubmitButton disabled={loading}>
-                                Create
-                            </SubmitButton>
+                            <SubmitButton disabled={loading}>Create</SubmitButton>
                         </form>
                     </div>
                 </m.div>

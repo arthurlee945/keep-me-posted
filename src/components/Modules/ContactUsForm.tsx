@@ -49,8 +49,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -60,11 +59,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
             return;
         }
         try {
-            await axios.post(
-                '/api/contact-route',
-                { name, email, message, type: 'contact' },
-                { signal: AbortSignal.timeout(30000) }
-            );
+            await axios.post('/api/contact-route', { name, email, message, type: 'contact' }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
@@ -75,9 +70,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -101,9 +94,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-3xl font-semibold mb-3 text-center">
-                                Contact Us
-                            </h1>
+                            <h1 className="text-3xl font-semibold mb-3 text-center">Contact Us</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -121,10 +112,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
-                                <form
-                                    className="flex flex-col gap-y-4"
-                                    onSubmit={handleSubmit(onSubmit)}
-                                >
+                                <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                                     <TextInput
                                         id="name"
                                         label="Name"
@@ -149,19 +137,13 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                                         register={register}
                                         resetField={resetField}
                                     />
-                                    <SubmitButton disabled={loading}>
-                                        Send Message
-                                    </SubmitButton>
+                                    <SubmitButton disabled={loading}>Send Message</SubmitButton>
                                 </form>
                             </>
                         ) : (
                             <>
-                                <h1 className="font-bold text-xl mb-2 text-center">
-                                    Your Request is Sent!
-                                </h1>
-                                <p className="text-base text-center">
-                                    We will get back to you shortly
-                                </p>
+                                <h1 className="font-bold text-xl mb-2 text-center">Your Request is Sent!</h1>
+                                <p className="text-base text-center">We will get back to you shortly</p>
                                 <Link
                                     className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold self-center mt-5"
                                     href="/"

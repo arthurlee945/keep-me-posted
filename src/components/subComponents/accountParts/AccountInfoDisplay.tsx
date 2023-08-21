@@ -9,17 +9,9 @@ interface AccountInfoDisplayProps {
     className?: string;
 }
 
-const AccountInfoDisplay: FC<AccountInfoDisplayProps> = ({
-    type,
-    placeholder,
-    className,
-}) => {
+const AccountInfoDisplay: FC<AccountInfoDisplayProps> = ({ type, placeholder, className }) => {
     const { data } = useSession();
-    return (
-        <p className={twMerge('text-base', className)}>
-            {!data ? placeholder : data.user ? data.user[type] : 'undefined'}
-        </p>
-    );
+    return <p className={twMerge('text-base', className)}>{!data ? placeholder : data.user ? data.user[type] : 'undefined'}</p>;
 };
 
 export default AccountInfoDisplay;

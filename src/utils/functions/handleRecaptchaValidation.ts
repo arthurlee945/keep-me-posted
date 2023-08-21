@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-export const handleRecaptchaValidation = async (
-    executeRecaptcha:
-        | ((_action?: string | undefined) => Promise<string>)
-        | undefined
-) => {
+export const handleRecaptchaValidation = async (executeRecaptcha: ((_action?: string | undefined) => Promise<string>) | undefined) => {
     if (!executeRecaptcha) return null;
     try {
         const token = await executeRecaptcha('formSubmit');

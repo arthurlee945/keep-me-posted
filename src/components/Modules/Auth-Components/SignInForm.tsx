@@ -45,8 +45,7 @@ const SignInForm = () => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -105,10 +104,7 @@ const SignInForm = () => {
                     )}
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
-                        <form
-                            className="flex flex-col gap-y-4"
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
+                        <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
                                 id="email"
                                 label="Email"
@@ -126,9 +122,7 @@ const SignInForm = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <SubmitButton disabled={loading}>
-                                Sign In With K.M.P.
-                            </SubmitButton>
+                            <SubmitButton disabled={loading}>Sign In With K.M.P.</SubmitButton>
                         </form>
                         <p
                             className="w-full my-4 text-xs flex justify-center items-center 
@@ -150,22 +144,12 @@ const SignInForm = () => {
                         </SubmitButton>
                         <div className="mt-6">
                             <p className="text-sm">
-                                New to{' '}
-                                <span className="font-semibold">
-                                    Keep Me Posted
-                                </span>
-                                ?{' '}
-                                <Link
-                                    className="font-semibold text-sky-600 hover:underline"
-                                    href="/auth/register"
-                                >
+                                New to <span className="font-semibold">Keep Me Posted</span>?{' '}
+                                <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
                                     Sign Up
                                 </Link>
                             </p>
-                            <Link
-                                className="text-sm font-semibold text-sky-600 hover:underline"
-                                href="/auth/forgot-password"
-                            >
+                            <Link className="text-sm font-semibold text-sky-600 hover:underline" href="/auth/forgot-password">
                                 Forgot Password
                             </Link>
                         </div>

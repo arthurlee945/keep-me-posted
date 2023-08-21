@@ -24,9 +24,7 @@ export async function POST(req: Request) {
     });
 
     try {
-        const verificationRes = (
-            await axios.post(`${GOOGLE_RECAPTCHA_URL}?${query}`)
-        ).data;
+        const verificationRes = (await axios.post(`${GOOGLE_RECAPTCHA_URL}?${query}`)).data;
         if (verificationRes?.score > 0.5) {
             return NextResponse.json({
                 status: 'successful',

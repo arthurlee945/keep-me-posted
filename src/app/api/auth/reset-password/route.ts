@@ -29,10 +29,7 @@ export async function PUT(req: Request) {
             return new NextResponse('Please provide a valid token', {
                 status: 402,
             });
-        if (
-            !user.resetPasswordExpires ||
-            user.resetPasswordExpires < new Date()
-        )
+        if (!user.resetPasswordExpires || user.resetPasswordExpires < new Date())
             return new NextResponse('Token is expired', { status: 402 });
         const hashed_password = await hash(password, 12);
         await prisma.$transaction([

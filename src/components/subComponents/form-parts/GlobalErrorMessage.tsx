@@ -6,10 +6,7 @@ interface GlobalErrorMessageProps {
     closeError: () => void;
 }
 
-const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({
-    error,
-    closeError,
-}) => {
+const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({ error, closeError }) => {
     return (
         <m.div
             className="flex items-center justify-between p-2 border-[1px] gap-x-6 border-red-600 rounded-[5px]"

@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 const [mobile, tablet] = [639, 1023];
 
 export const useViewPortTracker = () => {
-    const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>(
-        'desktop'
-    );
+    const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
 
     useEffect(() => {
         let prevWidth: number | undefined = undefined;
@@ -14,10 +12,7 @@ export const useViewPortTracker = () => {
             if (
                 prevWidth &&
                 ((currentWidth > tablet && prevWidth > tablet) ||
-                    (currentWidth <= tablet &&
-                        currentWidth > mobile &&
-                        prevWidth <= tablet &&
-                        prevWidth > mobile) ||
+                    (currentWidth <= tablet && currentWidth > mobile && prevWidth <= tablet && prevWidth > mobile) ||
                     (currentWidth <= mobile && prevWidth <= mobile))
             )
                 return;

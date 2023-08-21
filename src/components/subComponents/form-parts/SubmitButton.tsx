@@ -8,13 +8,7 @@ interface SubmitButtonProps {
     disabled?: boolean;
 }
 
-const SubmitButton: FC<SubmitButtonProps> = ({
-    className,
-    type = 'submit',
-    children = 'Placeholder',
-    disabled = true,
-    onClick,
-}) => {
+const SubmitButton: FC<SubmitButtonProps> = ({ className, type = 'submit', children = 'Placeholder', disabled = true, onClick }) => {
     return (
         <button
             className={twMerge(

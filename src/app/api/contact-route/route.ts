@@ -20,10 +20,7 @@ export async function POST(req: Request) {
         });
     const msg = {
         to: process.env.EMAIL_USERNAME,
-        subject:
-            type === 'contact'
-                ? 'Contact Us Request from KEEP ME POSTED'
-                : 'Support Request from KEEP ME POSTED',
+        subject: type === 'contact' ? 'Contact Us Request from KEEP ME POSTED' : 'Support Request from KEEP ME POSTED',
         text: `
         Name: ${name}\n
         Email: ${email} \n
@@ -32,8 +29,7 @@ export async function POST(req: Request) {
     };
     try {
         const emailRes = await sendEmail(msg);
-        if (emailRes.status === 'success')
-            return NextResponse.json({ status: 'success' });
+        if (emailRes.status === 'success') return NextResponse.json({ status: 'success' });
         return new NextResponse("Sorry we couldn't send your message", {
             status: 500,
         });

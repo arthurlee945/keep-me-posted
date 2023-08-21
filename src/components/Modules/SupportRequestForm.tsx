@@ -49,8 +49,7 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -60,11 +59,7 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
             return;
         }
         try {
-            await axios.post(
-                '/api/contact-route',
-                { name, email, message, type: 'support' },
-                { signal: AbortSignal.timeout(30000) }
-            );
+            await axios.post('/api/contact-route', { name, email, message, type: 'support' }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
@@ -75,9 +70,7 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -101,9 +94,7 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-3xl font-semibold mb-3 text-center">
-                                Support Request
-                            </h1>
+                            <h1 className="text-3xl font-semibold mb-3 text-center">Support Request</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -121,10 +112,7 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
-                                <form
-                                    className="flex flex-col gap-y-4"
-                                    onSubmit={handleSubmit(onSubmit)}
-                                >
+                                <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                                     <TextInput
                                         id="name"
                                         label="Name"
@@ -149,17 +137,11 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
                                         register={register}
                                         resetField={resetField}
                                     />
-                                    <SubmitButton disabled={loading}>
-                                        Send Message
-                                    </SubmitButton>
+                                    <SubmitButton disabled={loading}>Send Message</SubmitButton>
                                 </form>
                                 <div className="mt-6">
                                     <p className="text-sm">
-                                        Want to submit issue on{' '}
-                                        <span className="font-semibold">
-                                            Github
-                                        </span>
-                                        ?{' '}
+                                        Want to submit issue on <span className="font-semibold">Github</span>?{' '}
                                         <Link
                                             className="font-semibold text-blue-500 hover:underline"
                                             href="https://github.com/arthurlee945/keep-me-posted"
@@ -172,12 +154,8 @@ const SupportRequestForm: FC<SupportRequestFormProps> = () => {
                             </>
                         ) : (
                             <>
-                                <h1 className="font-bold text-xl mb-2 text-center">
-                                    Your Support Request is Sent!
-                                </h1>
-                                <p className="text-base text-center">
-                                    We will get back to you shortly
-                                </p>
+                                <h1 className="font-bold text-xl mb-2 text-center">Your Support Request is Sent!</h1>
+                                <p className="text-base text-center">We will get back to you shortly</p>
                                 <Link
                                     className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold self-center mt-5"
                                     href="/projects"

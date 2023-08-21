@@ -21,8 +21,7 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password)
-                    throw new Error("Email or Password Isn't Provided");
+                if (!credentials?.email || !credentials?.password) throw new Error("Email or Password Isn't Provided");
                 try {
                     const user = await prisma.user.findUnique({
                         where: {
@@ -35,11 +34,7 @@ export const authOptions: NextAuthOptions = {
                             password: true,
                         },
                     });
-                    if (
-                        !user ||
-                        !user.password ||
-                        !(await compare(credentials.password, user.password))
-                    )
+                    if (!user || !user.password || !(await compare(credentials.password, user.password)))
                         throw new Error('Email or Password Is Wrong', {
                             cause: 'INCORRECT_INPUT',
                         });

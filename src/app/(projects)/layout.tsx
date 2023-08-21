@@ -6,11 +6,7 @@ export const metadata: Metadata = {
     description: 'You can manage your projects on this page!',
 };
 
-export default async function ProjectLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default async function ProjectLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <ProjectHeader />

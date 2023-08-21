@@ -9,11 +9,7 @@ interface EditAccountButtonProps {
     className?: string;
 }
 
-const EditAccountButton: FC<EditAccountButtonProps> = ({
-    field,
-    text = 'Edit',
-    className,
-}) => {
+const EditAccountButton: FC<EditAccountButtonProps> = ({ field, text = 'Edit', className }) => {
     const [isEditting, setEditStatus] = useState<boolean>(false);
     const handleInitialBtnClick = (open: boolean) => {
         setEditStatus(open);
@@ -23,10 +19,7 @@ const EditAccountButton: FC<EditAccountButtonProps> = ({
         <>
             {isEditting && (
                 <div className="z-20 absolute top-0 left-0 flex justify-center items-center w-screen h-screen backdrop-brightness-75 backdrop-blur-sm">
-                    <UpdateForms
-                        field={field}
-                        closeModal={handleInitialBtnClick.bind(null, false)}
-                    />
+                    <UpdateForms field={field} closeModal={handleInitialBtnClick.bind(null, false)} />
                 </div>
             )}
             <button

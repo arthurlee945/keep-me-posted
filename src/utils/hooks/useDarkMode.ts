@@ -6,9 +6,7 @@ export const useDarkMode = (): [boolean, Dispatch<SetStateAction<boolean>>] => {
     useEffect(() => {
         if (isInitial) {
             let browserPref =
-                localStorage.theme === 'dark' ||
-                (!('theme' in localStorage) &&
-                    window?.matchMedia('(prefers-color-scheme: dark)').matches);
+                localStorage.theme === 'dark' || (!('theme' in localStorage) && window?.matchMedia('(prefers-color-scheme: dark)').matches);
             !browserPref && setDarkMode(browserPref);
             setIsInitial(false);
             return;

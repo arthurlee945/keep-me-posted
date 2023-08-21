@@ -19,8 +19,7 @@ export async function POST(req: Request) {
                 id: true,
             },
         });
-        if (!user)
-            return new NextResponse('User does not exist', { status: 400 });
+        if (!user) return new NextResponse('User does not exist', { status: 400 });
         const { token, hashedToken, expires } = generateRandomToken();
         const emailRes = await sendEmail({
             to: email,

@@ -22,15 +22,8 @@ const EmailUpdateSchema = z.object({
 });
 const PasswordUpdateSchema = z
     .object({
-        password: z
-            .string()
-            .trim()
-            .min(1, 'Password is required')
-            .min(8, 'Password must have more than 8 characters'),
-        confirmPassword: z
-            .string()
-            .trim()
-            .min(1, 'Password confirmation is required'),
+        password: z.string().trim().min(1, 'Password is required').min(8, 'Password must have more than 8 characters'),
+        confirmPassword: z.string().trim().min(1, 'Password confirmation is required'),
     })
     .refine((data) => data.password === data.confirmPassword, {
         path: ['confirmPassword'],
@@ -57,13 +50,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
         resetField,
         formState: { errors, dirtyFields },
     } = useForm({
-        resolver: zodResolver(
-            field === 'name'
-                ? NameUpdateSchema
-                : field === 'email'
-                ? EmailUpdateSchema
-                : PasswordUpdateSchema
-        ),
+        resolver: zodResolver(field === 'name' ? NameUpdateSchema : field === 'email' ? EmailUpdateSchema : PasswordUpdateSchema),
     });
 
     const onSubmit = async (data: FieldValues) => {
@@ -72,8 +59,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -88,14 +74,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
             });
             if (res.status === 200) {
                 if (field === 'password') return signOut({ callbackUrl: '/' });
-                else
-                    await update(
-                        field === 'name'
-                            ? { name: data.name }
-                            : field === 'email'
-                            ? { email: data.email }
-                            : undefined
-                    );
+                else await update(field === 'name' ? { name: data.name } : field === 'email' ? { email: data.email } : undefined);
                 return closeModal();
             } else {
                 setFormState((curr) => ({
@@ -109,9 +88,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -132,10 +109,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                     animate={{ y: 0, opacity: 1 }}
                 >
                     <h1 className="text-center font-semibold text-lg">
-                        {`Editing ${
-                            field[0].toUpperCase() +
-                            field.slice(1).toLowerCase()
-                        }`}
+                        {`Editing ${field[0].toUpperCase() + field.slice(1).toLowerCase()}`}
                     </h1>
                     {globalError && (
                         <GlobalErrorMessage
@@ -150,17 +124,10 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                     )}
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
-                        <form
-                            id="myAccount-update-form"
-                            className="flex flex-col gap-y-4"
-                            onSubmit={handleSubmit(onSubmit, onError)}
-                        >
+                        <form id="myAccount-update-form" className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit, onError)}>
                             <TextInput
                                 id={field}
-                                label={
-                                    field[0].toUpperCase() +
-                                    field.slice(1).toLowerCase()
-                                }
+                                label={field[0].toUpperCase() + field.slice(1).toLowerCase()}
                                 type={field === 'password' ? field : undefined}
                                 errors={errors[field]}
                                 isDirty={dirtyFields[field]}

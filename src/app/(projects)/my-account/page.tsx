@@ -24,42 +24,19 @@ export default async function MyAccountPage() {
                 </section>
                 <section className="grid grid-cols-3 grid-rows-3 gap-y-8 gap-x-2 w-full border-[1px] rounded-lg py-5 px-4 items-center shadow-md">
                     <>
-                        <p className="font-bold text-lg mobile:text-base">
-                            Name
-                        </p>
-                        <AccountInfoDisplay
-                            type="name"
-                            className="mobile:text-sm"
-                            placeholder={session.user.name || 'name'}
-                        />
-                        <EditAccountButton
-                            field="name"
-                            className="justify-self-center mobile:text-sm"
-                        />
+                        <p className="font-bold text-lg mobile:text-base">Name</p>
+                        <AccountInfoDisplay type="name" className="mobile:text-sm" placeholder={session.user.name || 'name'} />
+                        <EditAccountButton field="name" className="justify-self-center mobile:text-sm" />
                     </>
                     <>
-                        <p className="font-bold text-lg mobile:text-base">
-                            Email
-                        </p>
-                        <AccountInfoDisplay
-                            type="email"
-                            className="break-all mobile:text-sm"
-                            placeholder={session.user.email || 'email'}
-                        />
-                        <EditAccountButton
-                            field="email"
-                            className="justify-self-center mobile:text-sm"
-                        />
+                        <p className="font-bold text-lg mobile:text-base">Email</p>
+                        <AccountInfoDisplay type="email" className="break-all mobile:text-sm" placeholder={session.user.email || 'email'} />
+                        <EditAccountButton field="email" className="justify-self-center mobile:text-sm" />
                     </>
                     <>
-                        <p className="font-bold text-lg mobile:text-base">
-                            Password
-                        </p>
+                        <p className="font-bold text-lg mobile:text-base">Password</p>
                         <p className="text-base mobile:text-sm">********</p>
-                        <EditAccountButton
-                            field="password"
-                            className="justify-self-center mobile:text-sm"
-                        />
+                        <EditAccountButton field="password" className="justify-self-center mobile:text-sm" />
                     </>
                 </section>
             </div>

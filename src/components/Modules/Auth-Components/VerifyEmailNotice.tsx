@@ -5,10 +5,7 @@ const VerifyEmailNotice = async ({ token }: { token: string | undefined }) => {
         return 'No Token Provided';
     }
     try {
-        const { data } = await axios.post(
-            process.env.APP_URL + '/api/auth/verify-email',
-            { token }
-        );
+        const { data } = await axios.post(process.env.APP_URL + '/api/auth/verify-email', { token });
         return data.message || 'Thank you for verifying your email!';
     } catch (err) {
         let message;

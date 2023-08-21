@@ -5,8 +5,7 @@ import { NextResponse } from 'next/server';
 type verifyType = { token: string };
 export async function POST(req: Request) {
     const { token } = (await req.json()) as verifyType;
-    if (!token)
-        return new NextResponse('Please Provide Token', { status: 400 });
+    if (!token) return new NextResponse('Please Provide Token', { status: 400 });
     try {
         const user = await prisma.user.findFirst({
             where: {

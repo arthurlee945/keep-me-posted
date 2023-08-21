@@ -13,19 +13,12 @@ const HeaderAuthButton: FC<HeaderAuthButtonProps> = ({ className }) => {
     return (
         <>
             {status === 'unauthenticated' || status === 'loading' ? (
-                <DefaultButton
-                    buttonType="link"
-                    className={className}
-                    href={status === 'loading' ? '#' : '/auth/signin'}
-                >
+                <DefaultButton buttonType="link" className={className} href={status === 'loading' ? '#' : '/auth/signin'}>
                     {status === 'loading' ? 'Loading...' : 'Get Started/Log In'}
                 </DefaultButton>
             ) : (
                 <>
-                    <Link
-                        href="/projects"
-                        className="font-bold text-lg hover:underline"
-                    >
+                    <Link href="/projects" className="font-bold text-lg hover:underline">
                         Projects
                     </Link>
                     <DefaultButton

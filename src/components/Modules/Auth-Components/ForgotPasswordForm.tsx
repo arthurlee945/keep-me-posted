@@ -43,8 +43,7 @@ const ForgotPasswordForm = () => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -54,11 +53,7 @@ const ForgotPasswordForm = () => {
             return;
         }
         try {
-            await axios.post(
-                '/api/auth/forgot-password',
-                { email },
-                { signal: AbortSignal.timeout(30000) }
-            );
+            await axios.post('/api/auth/forgot-password', { email }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
@@ -69,9 +64,7 @@ const ForgotPasswordForm = () => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -95,9 +88,7 @@ const ForgotPasswordForm = () => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-2xl font-semibold mb-3">
-                                Forgot Password
-                            </h1>
+                            <h1 className="text-2xl font-semibold mb-3">Forgot Password</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -115,10 +106,7 @@ const ForgotPasswordForm = () => {
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
-                                <form
-                                    className="flex flex-col gap-y-4"
-                                    onSubmit={handleSubmit(onSubmit)}
-                                >
+                                <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                                     <TextInput
                                         id="email"
                                         label="Email"
@@ -127,34 +115,18 @@ const ForgotPasswordForm = () => {
                                         register={register}
                                         resetField={resetField}
                                     />
-                                    <SubmitButton disabled={loading}>
-                                        Reset Password
-                                    </SubmitButton>
+                                    <SubmitButton disabled={loading}>Reset Password</SubmitButton>
                                 </form>
                                 <div className="mt-6">
                                     <p className="text-sm">
-                                        New to{' '}
-                                        <span className="font-semibold">
-                                            Keep Me Posted
-                                        </span>
-                                        ?{' '}
-                                        <Link
-                                            className="font-semibold text-sky-600 hover:underline"
-                                            href="/auth/register"
-                                        >
+                                        New to <span className="font-semibold">Keep Me Posted</span>?{' '}
+                                        <Link className="font-semibold text-sky-600 hover:underline" href="/auth/register">
                                             Sign Up
                                         </Link>
                                     </p>
                                     <p className="text-sm">
-                                        Remembered Your{' '}
-                                        <span className="font-semibold">
-                                            Credential
-                                        </span>
-                                        ?{' '}
-                                        <Link
-                                            className="font-semibold text-sky-600 hover:underline"
-                                            href="/auth/signin"
-                                        >
+                                        Remembered Your <span className="font-semibold">Credential</span>?{' '}
+                                        <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
                                             Sign In
                                         </Link>
                                     </p>
@@ -163,14 +135,9 @@ const ForgotPasswordForm = () => {
                         ) : (
                             <>
                                 <h1 className="text-lg text-center mb-6">
-                                    <span className="font-bold line">
-                                        Email is sent!
-                                    </span>
+                                    <span className="font-bold line">Email is sent!</span>
                                     <br />
-                                    <span className="text-sm">
-                                        Please follow instruction to reset your
-                                        password!
-                                    </span>
+                                    <span className="text-sm">Please follow instruction to reset your password!</span>
                                 </h1>
                                 <Link
                                     className="border-[1px] py-2 px-5 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold w-fit self-center"

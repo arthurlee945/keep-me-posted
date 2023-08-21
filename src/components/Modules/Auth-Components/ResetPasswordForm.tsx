@@ -20,15 +20,8 @@ interface ResetPasswordFormProps {
 
 const ResetPasswordSchema = z
     .object({
-        password: z
-            .string()
-            .trim()
-            .min(1, 'Password is required')
-            .min(8, 'Password must have more than 8 characters'),
-        confirmPassword: z
-            .string()
-            .trim()
-            .min(1, 'Password confirmation is required'),
+        password: z.string().trim().min(1, 'Password is required').min(8, 'Password must have more than 8 characters'),
+        confirmPassword: z.string().trim().min(1, 'Password confirmation is required'),
     })
     .refine((data) => data.password === data.confirmPassword, {
         path: ['confirmPassword'],
@@ -60,8 +53,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -71,11 +63,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
             return;
         }
         try {
-            await axios.put(
-                '/api/auth/reset-password',
-                { token, password },
-                { signal: AbortSignal.timeout(30000) }
-            );
+            await axios.put('/api/auth/reset-password', { token, password }, { signal: AbortSignal.timeout(30000) });
             setFormState((curr) => ({
                 ...curr,
                 loading: false,
@@ -86,9 +74,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -112,9 +98,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-2xl font-semibold mb-3">
-                                New Password
-                            </h1>
+                            <h1 className="text-2xl font-semibold mb-3">New Password</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -132,10 +116,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
-                                <form
-                                    className="flex flex-col gap-y-4"
-                                    onSubmit={handleSubmit(onSubmit)}
-                                >
+                                <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                                     <TextInput
                                         id="password"
                                         label="Password"
@@ -154,22 +135,13 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                                         register={register}
                                         resetField={resetField}
                                     />
-                                    <SubmitButton disabled={loading}>
-                                        Reset Password
-                                    </SubmitButton>
+                                    <SubmitButton disabled={loading}>Reset Password</SubmitButton>
                                 </form>
 
                                 <div className="mt-6">
                                     <p className="text-sm">
-                                        Remembered Your{' '}
-                                        <span className="font-semibold">
-                                            Credential
-                                        </span>
-                                        ?{' '}
-                                        <Link
-                                            className="font-semibold text-sky-600 hover:underline"
-                                            href="/auth/signin"
-                                        >
+                                        Remembered Your <span className="font-semibold">Credential</span>?{' '}
+                                        <Link className="font-semibold text-sky-600 hover:underline" href="/auth/signin">
                                             Sign In
                                         </Link>
                                     </p>
@@ -178,14 +150,9 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                         ) : (
                             <>
                                 <h1 className="text-lg text-center mb-6">
-                                    <span className="font-bold line">
-                                        Password reset successful!
-                                    </span>
+                                    <span className="font-bold line">Password reset successful!</span>
                                     <br />
-                                    <span className="text-sm">
-                                        Please sign back in with your new
-                                        password!
-                                    </span>
+                                    <span className="text-sm">Please sign back in with your new password!</span>
                                 </h1>
                                 <Link
                                     className="border-[1px] py-2 px-5 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold w-fit self-center"

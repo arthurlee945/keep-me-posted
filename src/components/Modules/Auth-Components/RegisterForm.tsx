@@ -21,20 +21,9 @@ import { signIn } from 'next-auth/react';
 const RegisterSchema = z
     .object({
         username: z.string().trim().min(1, 'Username is required').max(100),
-        email: z
-            .string()
-            .trim()
-            .min(1, 'Email is required')
-            .email('Invalid email'),
-        password: z
-            .string()
-            .trim()
-            .min(1, 'Password is required')
-            .min(8, 'Password must have more than 8 characters'),
-        confirmPassword: z
-            .string()
-            .trim()
-            .min(1, 'Password confirmation is required'),
+        email: z.string().trim().min(1, 'Email is required').email('Invalid email'),
+        password: z.string().trim().min(1, 'Password is required').min(8, 'Password must have more than 8 characters'),
+        confirmPassword: z.string().trim().min(1, 'Password confirmation is required'),
         terms: z.literal(true, {
             errorMap: () => ({
                 message: 'You must accept the terms and conditions',
@@ -70,8 +59,7 @@ const RegisterForm = () => {
             loading: true,
             globalError: null,
         }));
-        const recaptchaValidate =
-            await handleRecaptchaValidation(executeRecaptcha);
+        const recaptchaValidate = await handleRecaptchaValidation(executeRecaptcha);
         if (!recaptchaValidate || recaptchaValidate !== 'successful') {
             setFormState((curr) => ({
                 ...curr,
@@ -81,11 +69,7 @@ const RegisterForm = () => {
             return;
         }
         try {
-            await axios.post(
-                '/api/auth/register',
-                { name: username, email, password },
-                { signal: AbortSignal.timeout(30000) }
-            );
+            await axios.post('/api/auth/register', { name: username, email, password }, { signal: AbortSignal.timeout(30000) });
             const signInRes = await signIn('credentials', {
                 email,
                 password,
@@ -101,9 +85,7 @@ const RegisterForm = () => {
                 setFormState((curr) => ({
                     ...curr,
                     loading: false,
-                    globalError:
-                        `${(err as AxiosError).response?.data}` ||
-                        'Sorry Something Went Wrong',
+                    globalError: `${(err as AxiosError).response?.data}` || 'Sorry Something Went Wrong',
                 }));
             } else {
                 setFormState((curr) => ({
@@ -139,10 +121,7 @@ const RegisterForm = () => {
                     )}
                     <div className="relative flex flex-col text-sm align-center">
                         {loading && <LoadingContainer />}
-                        <form
-                            className="flex flex-col gap-y-4"
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
+                        <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
                                 id="username"
                                 label="Username"
@@ -177,25 +156,13 @@ const RegisterForm = () => {
                                 register={register}
                                 resetField={resetField}
                             />
-                            <CheckBoxInput
-                                id="terms"
-                                errors={errors.terms}
-                                legal={true}
-                                register={register}
-                                resetField={resetField}
-                            />
-                            <SubmitButton disabled={loading}>
-                                Register
-                            </SubmitButton>
+                            <CheckBoxInput id="terms" errors={errors.terms} legal={true} register={register} resetField={resetField} />
+                            <SubmitButton disabled={loading}>Register</SubmitButton>
                         </form>
                         <div className="mt-6">
                             <p className="text-sm">
-                                Already a{' '}
-                                <span className="font-semibold">Member</span>?{' '}
-                                <Link
-                                    className="font-semibold text-blue-500 hover:underline"
-                                    href="/auth/signin"
-                                >
+                                Already a <span className="font-semibold">Member</span>?{' '}
+                                <Link className="font-semibold text-blue-500 hover:underline" href="/auth/signin">
                                     Sign In
                                 </Link>
                             </p>

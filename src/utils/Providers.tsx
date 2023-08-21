@@ -11,13 +11,9 @@ interface ProvidersProps {
 const queryClient = new QueryClient();
 const Providers: FC<ProvidersProps> = ({ children, session }) => {
     return (
-        <GoogleReCaptchaProvider
-            reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-        >
+        <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}>
             <SessionProvider session={session}>
-                <QueryClientProvider client={queryClient}>
-                    {children}
-                </QueryClientProvider>
+                <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
             </SessionProvider>
         </GoogleReCaptchaProvider>
     );

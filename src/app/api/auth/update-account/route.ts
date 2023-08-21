@@ -9,8 +9,7 @@ import { NextResponse } from 'next/server';
 
 export async function PUT(req: Request) {
     const session = await getServerSession(authOptions);
-    if (!session || !session.user || !session.user.email)
-        return new NextResponse('Unauthorized', { status: 401 });
+    if (!session || !session.user || !session.user.email) return new NextResponse('Unauthorized', { status: 401 });
     const { email, password, name } = await req.json();
     try {
         //----------------- name update
@@ -49,13 +48,11 @@ export async function PUT(req: Request) {
                 id: true,
             },
         });
-        if (!user)
-            return new NextResponse('User does not exist', { status: 401 });
+        if (!user) return new NextResponse('User does not exist', { status: 401 });
         email &&
             sendEmail({
                 to: email,
-                subject:
-                    'Your email is updated! Please Verify Your Email for Keep Me Posted!',
+                subject: 'Your email is updated! Please Verify Your Email for Keep Me Posted!',
                 text: `
             Please click on link provided to verify your email\n
             ${process.env.APP_URL}/auth/verify-email?token=${emailVerificationToken} \n

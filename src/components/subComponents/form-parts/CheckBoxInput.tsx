@@ -1,13 +1,6 @@
 import Link from 'next/link';
 import { FC } from 'react';
-import {
-    FieldError,
-    FieldErrorsImpl,
-    FieldValues,
-    Merge,
-    UseFormRegister,
-    UseFormResetField,
-} from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister, UseFormResetField } from 'react-hook-form';
 import FormErrorMessage from './FormErrorMessage';
 
 interface CheckBoxInputProps {
@@ -19,13 +12,7 @@ interface CheckBoxInputProps {
     resetField: UseFormResetField<FieldValues>;
 }
 
-const CheckBoxInput: FC<CheckBoxInputProps> = ({
-    id,
-    label,
-    legal = false,
-    errors,
-    register,
-}) => {
+const CheckBoxInput: FC<CheckBoxInputProps> = ({ id, label, legal = false, errors, register }) => {
     return (
         <div className="relative flex flex-col">
             <div className="flex group">
@@ -40,16 +27,10 @@ const CheckBoxInput: FC<CheckBoxInputProps> = ({
                     type="checkbox"
                     {...register(id)}
                 />
-                <label
-                    className={`${
-                        errors ? 'has-error' : ''
-                    } cursor-pointer [&.has-error]:text-red-600 group`}
-                    htmlFor={id}
-                >
+                <label className={`${errors ? 'has-error' : ''} cursor-pointer [&.has-error]:text-red-600 group`} htmlFor={id}>
                     {legal ? (
                         <>
-                            By continuing, you are setting up an account with
-                            this app and agree to our{' '}
+                            By continuing, you are setting up an account with this app and agree to our{' '}
                             <Link
                                 className="text-blue-500 hover:underline font-semibold group-[.has-error]:text-red-500"
                                 href="/terms-and-conditions"

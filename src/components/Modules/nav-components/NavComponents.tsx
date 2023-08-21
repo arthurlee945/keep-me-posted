@@ -16,29 +16,20 @@ const NavComponents: FC<NavComponentsProps> = () => {
     const routeChangeStarted = useRouteChangeStarted();
     useEffect(() => {
         if (viewport === 'mobile') {
-            document.body.setAttribute(
-                'style',
-                navVisible ? 'overflow:hidden;' : ''
-            );
+            document.body.setAttribute('style', navVisible ? 'overflow:hidden;' : '');
             // document.getElementsByTagName("html")[0].setAttribute("style", navVisible ? "scrollbar-gutter:stable;" : "");
         } else if (navVisible) {
             document.body.setAttribute('style', '');
             // document.getElementsByTagName("html")[0].setAttribute("style", "");
         }
     }, [navVisible, viewport]);
-    if (
-        (navVisible && viewport === 'desktop') ||
-        (viewport !== 'desktop' && routeChangeStarted)
-    )
-        setNavVisible(false);
+    if ((navVisible && viewport === 'desktop') || (viewport !== 'desktop' && routeChangeStarted)) setNavVisible(false);
     return (
         <section className="flex items-center gap-x-3">
             <button
                 id="nav-button"
                 className={twMerge(
-                    `group z-10 desktop:hidden w-9 h-8 flex flex-col items-center justify-between ${
-                        navVisible ? 'nav-visible' : ''
-                    }
+                    `group z-10 desktop:hidden w-9 h-8 flex flex-col items-center justify-between ${navVisible ? 'nav-visible' : ''}
                     before:content-[''] before:w-full before:h-1 before:dark:bg-zinc-50 before:bg-zinc-900 before:transition-transform before:origin-top-left before:transform [&.nav-visible]:before:rotate-45 [&.nav-visible]:before:w-[110%]
                     after:content-[''] after:w-full after:h-1 after:dark:bg-zinc-50 after:bg-zinc-900 after:transition-[transform,width] after:origin-bottom-left after:transform [&.nav-visible]:after:-rotate-45 [&.nav-visible]:after:w-[110%]`
                 )}
@@ -56,20 +47,13 @@ const NavComponents: FC<NavComponentsProps> = () => {
                     mobile:absolute mobile:overflow-hidden mobile:-top-[1px] mobile:-right-[1px] mobile:border-[1px] mobile:px-3 mobile:flex-col mobile:backdrop-blur-md dark:mobile:backdrop-brightness-75 mobile:backdrop-brightness-125 mobile:gap-y-4 mobile:w-[calc(100%+2px)] mobile:h-screen mobile:justify-around`}
                     initial={{ height: 0, paddingBottom: 0, borderWidth: 0 }}
                     animate={{
-                        height: !navVisible
-                            ? 0
-                            : viewport === 'mobile'
-                            ? 'calc(100vh - 9px)'
-                            : 'auto',
+                        height: !navVisible ? 0 : viewport === 'mobile' ? 'calc(100vh - 9px)' : 'auto',
                         borderWidth: navVisible ? 1 : 0,
                     }}
                     aria-hidden={!navVisible}
                 >
                     <DarkModeToggle className="tablet:mt-[60px]" />
-                    <Link
-                        href="/about"
-                        className="font-bold text-lg hover:underline"
-                    >
+                    <Link href="/about" className="font-bold text-lg hover:underline">
                         About
                     </Link>
                     <HeaderAuthButton className="tablet:mb-3" />

@@ -1,12 +1,5 @@
 import { FC, SyntheticEvent } from 'react';
-import {
-    FieldError,
-    FieldErrorsImpl,
-    FieldValues,
-    Merge,
-    UseFormRegister,
-    UseFormResetField,
-} from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister, UseFormResetField } from 'react-hook-form';
 import FormErrorMessage from './FormErrorMessage';
 
 interface TextInputProps {
@@ -19,15 +12,7 @@ interface TextInputProps {
     resetField: UseFormResetField<FieldValues>;
 }
 
-const TextInput: FC<TextInputProps> = ({
-    id,
-    label,
-    errors,
-    isDirty,
-    type = 'text',
-    register,
-    resetField,
-}) => {
+const TextInput: FC<TextInputProps> = ({ id, label, errors, isDirty, type = 'text', register, resetField }) => {
     const handleReset = (e: SyntheticEvent) => {
         if ((e.target as HTMLInputElement).value !== '') return;
         resetField(id, { defaultValue: '', keepDirty: false });

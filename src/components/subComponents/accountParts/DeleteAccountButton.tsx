@@ -25,26 +25,21 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
                 setDeleteStatus((curr) => ({
                     ...curr,
                     loading: false,
-                    error:
-                        `${(err as AxiosError).response?.data}` ||
-                        "Couldn't Process Your Request!",
+                    error: `${(err as AxiosError).response?.data}` || "Couldn't Process Your Request!",
                 }));
                 return;
             }
             setDeleteStatus((curr) => ({
                 ...curr,
                 loading: false,
-                error:
-                    `${(err as AxiosError).response?.data}` ||
-                    "Couldn't Process Your Request!",
+                error: `${(err as AxiosError).response?.data}` || "Couldn't Process Your Request!",
             }));
         }
     };
     const handleInitialBtnClick = (open: boolean) => {
         setBtnState(open);
         document.body.setAttribute('style', open ? 'overflow:hidden;' : '');
-        if (error && !open)
-            setDeleteStatus((curr) => ({ ...curr, error: null }));
+        if (error && !open) setDeleteStatus((curr) => ({ ...curr, error: null }));
     };
     return (
         <>
@@ -54,16 +49,11 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
                         {loading && <LoadingContainer />}
                         {error ? (
                             <>
-                                <h1 className="text-center font-semibold text-lg text-ellipsis max-h-1/2">
-                                    {error}
-                                </h1>
+                                <h1 className="text-center font-semibold text-lg text-ellipsis max-h-1/2">{error}</h1>
                                 <button
                                     disabled={loading}
                                     className="py-2 px-4 border-[1px] rounded-md  bg-red-600 dark:hover:bg-red-500 hover:bg-red-700 self-center"
-                                    onClick={handleInitialBtnClick.bind(
-                                        null,
-                                        false
-                                    )}
+                                    onClick={handleInitialBtnClick.bind(null, false)}
                                 >
                                     Close
                                 </button>
@@ -71,11 +61,7 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
                         ) : (
                             <>
                                 <h1 className="text-center font-semibold text-lg">
-                                    You are about to{' '}
-                                    <span className="text-red-600 font-bold">
-                                        Delete
-                                    </span>{' '}
-                                    your account. <br />
+                                    You are about to <span className="text-red-600 font-bold">Delete</span> your account. <br />
                                     Are you Sure?
                                 </h1>
                                 <div className="flex justify-center gap-x-8">
@@ -89,10 +75,7 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
                                     <button
                                         disabled={loading}
                                         className="py-2 px-4 border-[1px] rounded-md bg-green-600 dark:hover:bg-green-500 hover:bg-green-700"
-                                        onClick={handleInitialBtnClick.bind(
-                                            null,
-                                            false
-                                        )}
+                                        onClick={handleInitialBtnClick.bind(null, false)}
                                     >
                                         No
                                     </button>
