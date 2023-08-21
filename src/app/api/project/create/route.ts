@@ -32,7 +32,6 @@ export async function POST(req: Request) {
                 id: true,
             },
         });
-
         return NextResponse.json({ status: 'success', projectId: project.id });
     } catch (err) {
         return NextResponse.json('something went wrong processing your project', { status: 500 });

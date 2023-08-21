@@ -44,10 +44,10 @@ const ProjNavComponents: FC<ProjNavComponentsProps> = () => {
                     key={viewport + '-nav'}
                     className={`flex gap-x-5 items-center
                     tablet:absolute tablet:overflow-hidden tablet:top-1 tablet:right-2 tablet:border-[1px] tablet:px-3 tablet:flex-col tablet:backdrop-blur-md dark:tablet:backdrop-brightness-75 tablet:backdrop-brightness-125 tablet:gap-y-4 tablet:min-w-[250px] 
-                    mobile:absolute mobile:overflow-hidden mobile:-top-[1px] mobile:-right-[1px] mobile:border-[1px] mobile:px-3 mobile:flex-col mobile:backdrop-blur-md dark:mobile:backdrop-brightness-75 mobile:backdrop-brightness-125 mobile:gap-y-4 mobile:w-[calc(100%+2px)] mobile:h-screen mobile:justify-around`}
+                    mobile:absolute mobile:overflow-hidden mobile:top-0 mobile:-right-[1px] mobile:border-[1px] mobile:px-3 mobile:flex-col mobile:backdrop-blur-md dark:mobile:backdrop-brightness-75 mobile:backdrop-brightness-125 mobile:gap-y-4 mobile:w-[calc(100%+2px)] mobile:h-screen mobile:justify-around`}
                     initial={{ height: 0, paddingBottom: 0, borderWidth: 0 }}
                     animate={{
-                        height: !navVisible ? 0 : viewport === 'mobile' ? 'calc(100vh - 9px)' : 'auto',
+                        height: !navVisible ? 0 : viewport === 'mobile' ? '100vh' : 'auto',
                         borderWidth: navVisible ? 1 : 0,
                     }}
                     aria-hidden={!navVisible}
