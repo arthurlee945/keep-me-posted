@@ -45,7 +45,6 @@ const CreateProjectForm = () => {
     } = useForm({ resolver: zodResolver(CreateProjectSchema) });
 
     const onSubmit = async ({ title, packageJson }: FieldValues) => {
-        const packageJsonUrl = URL.createObjectURL(packageJson[0]);
         setFormState((curr) => ({
             ...curr,
             loading: true,
@@ -61,11 +60,15 @@ const CreateProjectForm = () => {
             return;
         }
         try {
-            const res = await axios.post('/api/project/create', { title, packageJsonUrl }, { signal: AbortSignal.timeout(30000) });
-            console.log(res);
-            router.push('/projects');
+            const { projectId } = (
+                await axios.post(
+                    '/api/project/create',
+                    { title, packageData: await packageJson[0].text() },
+                    { signal: AbortSignal.timeout(30000) }
+                )
+            ).data;
+            router.push(`/projects/${projectId}`);
         } catch (err) {
-            console.log(err);
             if (err instanceof AxiosError) {
                 setFormState((curr) => ({
                     ...curr,
