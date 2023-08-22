@@ -1,10 +1,5 @@
 'use client';
-import { Metadata } from 'next';
 import { signOut } from 'next-auth/react';
-export const metadata: Metadata = {
-    title: 'Keep Me Posted | Sign Out Page',
-    description: 'Sign Out Page',
-};
 const SignOutPage = () => {
     signOut({ callbackUrl: '/' });
 
