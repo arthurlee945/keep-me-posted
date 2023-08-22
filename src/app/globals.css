@@ -2,11 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer components{
-    .test {
-        @apply relative flex items-center;
-    }
-} */
+@layer components {
+}
 
 html,
 body {

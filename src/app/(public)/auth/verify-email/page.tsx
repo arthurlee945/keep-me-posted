@@ -1,7 +1,11 @@
 import VerifyEmailNotice from '@/components/Modules/Auth-Components/VerifyEmailNotice';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
-
+export const metadata: Metadata = {
+    title: 'Keep Me Posted | Verify Password Page',
+    description: 'Verify Password Page',
+};
 const VerifyEmail = async ({ searchParams: { token } }: { searchParams: { token: string } }) => {
     return (
         <main className="flex-1 w-full flex justify-center items-center p-5">

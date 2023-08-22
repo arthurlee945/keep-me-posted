@@ -1,6 +1,6 @@
 'use client';
 import { useDarkMode } from '@/utils/hooks/useDarkMode';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion';
 //------------icons
 import Moon from '@/styles/icons/moon.svg';
 import Sun from '@/styles/icons/sun.svg';
@@ -17,37 +17,39 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
                 className
             )}
         >
-            <motion.button
-                layout
-                className="bg-zinc-900 dark:bg-zinc-100 w-[22px] h-[22px] p-[2px] aspect-square rounded-full transition-colors"
-                onClick={() => {
-                    setDarkMode(!darkMode);
-                }}
-            >
-                <AnimatePresence initial={false} mode="wait">
-                    {darkMode ? (
-                        <motion.span
-                            key="moon-icon"
-                            className="flex w-full h-full"
-                            animate={{ rotate: '360deg' }}
-                            exit={{ rotate: '0deg' }}
-                            transition={{ duration: 0.15 }}
-                        >
-                            <Moon />
-                        </motion.span>
-                    ) : (
-                        <motion.span
-                            key="sun-icon"
-                            className="flex w-full h-full"
-                            animate={{ rotate: '360deg' }}
-                            exit={{ rotate: '0deg' }}
-                            transition={{ duration: 0.15 }}
-                        >
-                            <Sun />
-                        </motion.span>
-                    )}
-                </AnimatePresence>
-            </motion.button>
+            <LazyMotion features={domAnimation}>
+                <m.button
+                    layout
+                    className="bg-zinc-900 dark:bg-zinc-100 w-[22px] h-[22px] p-[2px] aspect-square rounded-full transition-colors"
+                    onClick={() => {
+                        setDarkMode(!darkMode);
+                    }}
+                >
+                    <AnimatePresence initial={false} mode="wait">
+                        {darkMode ? (
+                            <m.span
+                                key="moon-icon"
+                                className="flex w-full h-full"
+                                animate={{ rotate: '360deg' }}
+                                exit={{ rotate: '0deg' }}
+                                transition={{ duration: 0.15 }}
+                            >
+                                <Moon />
+                            </m.span>
+                        ) : (
+                            <m.span
+                                key="sun-icon"
+                                className="flex w-full h-full"
+                                animate={{ rotate: '360deg' }}
+                                exit={{ rotate: '0deg' }}
+                                transition={{ duration: 0.15 }}
+                            >
+                                <Sun />
+                            </m.span>
+                        )}
+                    </AnimatePresence>
+                </m.button>
+            </LazyMotion>
         </div>
     );
 };
