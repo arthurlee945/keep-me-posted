@@ -60,6 +60,7 @@ const SignInForm = () => {
                 password,
                 redirect: false,
             });
+            console.log(signInRes);
             if (!signInRes?.error) {
                 router.push('/projects');
             } else {

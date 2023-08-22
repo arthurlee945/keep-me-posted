@@ -4,7 +4,6 @@
 
 Live Page: <a target="_blank" href="https://keep-me-posted.vercel.app/">https://keep-me-posted.vercel.app/</a>
 
-
 //-----------------------------------------------------------
 ![Screenshot 2023-08-21 215906](https://github.com/arthurlee945/keep-me-posted/assets/83962300/1e2fd0ea-cd16-41be-80e3-e130a92d5fd0)
 //-----------------------------------------------------------

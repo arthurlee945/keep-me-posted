@@ -1,14 +1,29 @@
+import { authOptions } from '@/utils/auth/auth';
 import { prisma } from '@/utils/database/prisma';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user || !session.user.email)
+        return NextResponse.json({ status: 'failed', message: 'User is not logged in' }, { status: 402 });
     const { searchParams } = new URL(req.url);
     const projectId = searchParams.get('projectId');
     if (!projectId) return NextResponse.json({ status: 'failed' }, { status: 400 });
     try {
+        const user = await prisma.user.findUnique({
+            where: {
+                email: session.user.email,
+            },
+            select: {
+                id: true,
+            },
+        });
+        if (!user) return NextResponse.json({ status: 'failed' }, { status: 400 });
         const project = await prisma.project.update({
             where: {
                 id: projectId,
+                userId: user.id,
             },
             data: {
                 visitedAt: new Date(),

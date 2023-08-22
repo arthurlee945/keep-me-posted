@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
                         email,
                     };
                 } catch (err) {
+                    console.log(err);
                     if (err instanceof Error && err.message) {
                         throw new Error(err.message, { cause: err });
                     }
@@ -78,6 +79,19 @@ export const authOptions: NextAuthOptions = {
         //         expires: sessionExp,
         //         httpOnly: true,
         //     });
+        //     return true;
+        // },
+        // async signIn({ user, account, profile, email, credentials }) {
+        //     if(account?.provider !=="credentails" && user && user.email){
+        //         const u = await prisma.user.findUnique({
+        //             where:{
+        //                 email: user.email
+        //             },
+        //             select:{
+        //                 id:true
+        //             }
+        //         })
+        //     }
         //     return true;
         // },
         session: async ({ session, token }) => {
