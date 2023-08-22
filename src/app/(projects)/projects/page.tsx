@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     description: 'You can see all your created projects here',
 };
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 const getInitialProjects = async () => {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.email) return { status: 402, message: 'unauthorized' };

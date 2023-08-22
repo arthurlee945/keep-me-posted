@@ -16,7 +16,6 @@ export async function POST(req: Request) {
                 id: true,
             },
         });
-        console.log(project);
         if (!project) return NextResponse.json({ status: 'failed', message: "Couldn't delete the project with that id" }, { status: 400 });
         return NextResponse.json({
             status: 'success',

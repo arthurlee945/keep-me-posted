@@ -18,7 +18,7 @@ const EditAccountButton: FC<EditAccountButtonProps> = ({ field, text = 'Edit', c
     return (
         <>
             {isEditting && (
-                <div className="z-20 absolute top-0 left-0 flex justify-center items-center w-screen h-screen backdrop-brightness-75 backdrop-blur-sm">
+                <div className="z-20 absolute top-0 left-0 flex justify-center items-center w-screen h-screen backdrop-brightness-75 backdrop-blur-sm ">
                     <UpdateForms field={field} closeModal={handleInitialBtnClick.bind(null, false)} />
                 </div>
             )}

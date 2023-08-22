@@ -104,7 +104,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.section
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-10/12"
+                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-10/12 dark:bg-zinc-900 bg-zinc-50"
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
