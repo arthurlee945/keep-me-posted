@@ -81,6 +81,8 @@ export const authOptions: NextAuthOptions = {
         //     });
         //     return true;
         // },
+        //! need to add custom signin to override credential if oauth with same email gets used
+        //! need to signout if db updated
         // async signIn({ user, account, profile, email, credentials }) {
         //     if(account?.provider !=="credentails" && user && user.email){
         //         const u = await prisma.user.findUnique({
