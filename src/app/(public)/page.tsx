@@ -31,7 +31,7 @@ export default async function Home() {
                 </div>
                 <div className="relative w-[47%] aspect-video p-5 border shadow-lg rounded-md overflow-hidden mobile:w-full">
                     <Image
-                        src="/sample-page.webp"
+                        src="/sample-page.jpg"
                         sizes="100%"
                         className="object-cover object-left-top transition-transform hover:scale-110 origin-top-left"
                         fill
@@ -42,7 +42,7 @@ export default async function Home() {
             <section className="flex justify-between w-full mobile:flex-col-reverse mobile:gap-y-5">
                 <div className="relative w-[47%] aspect-video border shadow-lg rounded-md overflow-hidden mobile:w-full">
                     <Image
-                        src="/sample-page-2.webp"
+                        src="/sample-page-2.jpg"
                         sizes="100%"
                         className="object-cover object-left-top transition-transform hover:scale-110 origin-top-left"
                         fill
