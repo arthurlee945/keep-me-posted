@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 };
 const VerifyEmail = async ({ searchParams: { token } }: { searchParams: { token: string } }) => {
     return (
-        <main className="flex-1 w-full flex justify-center items-center p-5">
-            <Suspense fallback={<h1 className="text-xl font-semibold text-center">Attempting To Verify...</h1>}>
-                <section className="flex flex-col gap-y-4 items-center w-full">
-                    <h1 className="w-2/3 tablet:w-3/4 mobile:w-full text-center mx-auto my-0 text-xl font-semibold">
+        <main className="flex w-full flex-1 items-center justify-center p-5">
+            <Suspense fallback={<h1 className="text-center text-xl font-semibold">Attempting To Verify...</h1>}>
+                <section className="flex w-full flex-col items-center gap-y-4">
+                    <h1 className="mx-auto my-0 w-2/3 text-center text-xl font-semibold mobile:w-full tablet:w-3/4">
                         <VerifyEmailNotice token={token} />
                     </h1>
                     <Link
-                        className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold"
+                        className="rounded-[5px] border-[1px] px-4 py-2 font-semibold transition-[letter-spacing] hover:tracking-wider"
                         href="/"
                     >
                         Go Back

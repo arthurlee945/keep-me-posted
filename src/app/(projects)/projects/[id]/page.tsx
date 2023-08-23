@@ -52,10 +52,10 @@ const ProjectPage = async ({ params: { id } }: { params: { id: string } }) => {
     const projData = await getProjectData(id);
     if (projData.status !== 'success' || !projData.data) {
         return (
-            <main className="flex flex-1 px-8 py-5 justify-center items-center flex-col">
-                <h1 className="font-semibold text-3xl mb-6 mobile:text-xl">Sorry, Something went wrong</h1>
+            <main className="flex flex-1 flex-col items-center justify-center px-8 py-5">
+                <h1 className="mb-6 text-3xl font-semibold mobile:text-xl">Sorry, Something went wrong</h1>
                 <Link
-                    className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold"
+                    className="rounded-[5px] border-[1px] px-4 py-2 font-semibold transition-[letter-spacing] hover:tracking-wider"
                     href="/projects"
                 >
                     Go Back
@@ -67,9 +67,9 @@ const ProjectPage = async ({ params: { id } }: { params: { id: string } }) => {
         data: { title, ...deps },
     } = projData;
     return (
-        <main className="flex flex-1 px-8 py-5 flex-col gap-y-7 tablet:px-5 mobile:px-3">
+        <main className="flex flex-1 flex-col gap-y-7 px-8 py-5 mobile:px-3 tablet:px-5">
             <section className="flex items-center justify-between">
-                <h1 className="font-semibold text-3xl mobile:text-xl">{title}</h1>
+                <h1 className="text-3xl font-semibold mobile:text-xl">{title}</h1>
                 <DeleteProjectButton projectId={id} />
             </section>
             <DependencyDisplay deps={deps} />

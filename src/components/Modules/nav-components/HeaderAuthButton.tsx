@@ -18,7 +18,7 @@ const HeaderAuthButton: FC<HeaderAuthButtonProps> = ({ className }) => {
                 </DefaultButton>
             ) : (
                 <>
-                    <Link href="/projects" className="font-bold text-lg hover:underline">
+                    <Link href="/projects" className="text-lg font-bold hover:underline">
                         Projects
                     </Link>
                     <DefaultButton

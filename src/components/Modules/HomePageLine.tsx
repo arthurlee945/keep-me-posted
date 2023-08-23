@@ -10,7 +10,7 @@ const HomePageLine: FC<HomePageLineProps> = () => {
         <LazyMotion features={domAnimation}>
             <m.div
                 aria-label="decorative-line"
-                className=" -z-[1] top-[2%] absolute h-[96%] w-[2px] dark:bg-zinc-50 bg-zinc-900 origin-top"
+                className=" absolute top-[2%] -z-[1] h-[96%] w-[2px] origin-top bg-zinc-900 dark:bg-zinc-50"
                 style={{ scaleY: scrollYProgress }}
             ></m.div>
         </LazyMotion>

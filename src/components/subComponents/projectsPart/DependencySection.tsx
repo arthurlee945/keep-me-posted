@@ -15,16 +15,16 @@ const DependencySection: FC<DependencySectionProps> = ({ type, isInitial = false
     return (
         <section>
             <button
-                className={twMerge('w-full flex items-center justify-between group mb-5', toggleOpen ? 'is-opened' : '')}
+                className={twMerge('group mb-5 flex w-full items-center justify-between', toggleOpen ? 'is-opened' : '')}
                 onClick={() => {
                     setToggleOpen(!toggleOpen);
                 }}
             >
-                <h2 className="font-semibold text-xl mobile:text-base">{type}</h2>
+                <h2 className="text-xl font-semibold mobile:text-base">{type}</h2>
                 <span
-                    className={`relative flex items-center justify-center w-10 h-10 transition-transform group-[.is-opened]:rotate-45 aspect-square 
-                after:contents-[''] after:w-full after:absolute after:h-1 dark:after:bg-zinc-50 after:bg-zinc-900
-                before:contents-[''] before:w-1 before:absolute before:h-full dark:before:bg-zinc-50 before:bg-zinc-900 mobile:w-8 mobile:h-8`}
+                    className={`after:contents-[''] before:contents-[''] relative flex aspect-square h-10 w-10 items-center justify-center 
+                transition-transform before:absolute before:h-full before:w-1 before:bg-zinc-900 after:absolute
+                after:h-1 after:w-full after:bg-zinc-900 group-[.is-opened]:rotate-45 dark:before:bg-zinc-50 dark:after:bg-zinc-50 mobile:h-8 mobile:w-8`}
                 />
             </button>
             <LazyMotion features={domAnimation}>
@@ -40,7 +40,7 @@ const DependencySection: FC<DependencySectionProps> = ({ type, isInitial = false
                         paddingBottom: toggleOpen ? '1.25rem' : 0,
                     }}
                     aria-hidden={toggleOpen}
-                    className="flex flex-col gap-y-4 border py-5 px-3 overflow-hidden rounded-md"
+                    className="flex flex-col gap-y-4 overflow-hidden rounded-md border px-3 py-5"
                 >
                     {Object.entries(data).map(([depName, ver], i) => (
                         <DependencyCard key={`${depName}-${ver}-${i}`} depName={depName} currentVersion={ver} />

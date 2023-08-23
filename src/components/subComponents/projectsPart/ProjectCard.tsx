@@ -35,10 +35,10 @@ const ProjectCard: FC<ProjectCardProps> = ({ data: { id, visitedAt, createdAt, t
     return (
         <Link
             ref={cardRef}
-            className="flex flex-col justify-between text-start w-[22%] border p-5 rounded-md shadow-lg transition-[filter] hover:brightness-75 tablet:w-[47%] mobile:w-[100%]"
+            className="flex w-[22%] flex-col justify-between rounded-md border p-5 text-start shadow-lg transition-[filter] hover:brightness-75 mobile:w-[100%] tablet:w-[47%]"
             href={`/projects/${id}`}
         >
-            <h2 className="text-lg font-semibold mb-5">{title ?? 'undefined'}</h2>
+            <h2 className="mb-5 text-lg font-semibold">{title ?? 'undefined'}</h2>
             <div>
                 <p className="text-sm">
                     Visited:{' '}

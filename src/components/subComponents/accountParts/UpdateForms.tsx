@@ -104,11 +104,11 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.section
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-10/12 dark:bg-zinc-900 bg-zinc-50"
+                    className="flex w-[30%] min-w-[375px] flex-col gap-y-[15px] rounded-[5px] border-[1px] bg-zinc-50 p-4 dark:bg-zinc-900 mobile:w-10/12 mobile:min-w-0"
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-center font-semibold text-lg">
+                    <h1 className="text-center text-lg font-semibold">
                         {`Editing ${field[0].toUpperCase() + field.slice(1).toLowerCase()}`}
                     </h1>
                     {globalError && (
@@ -122,7 +122,7 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                             }}
                         />
                     )}
-                    <div className="relative flex flex-col text-sm align-center">
+                    <div className="align-center relative flex flex-col text-sm">
                         {loading && <LoadingContainer />}
                         <form id="myAccount-update-form" className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit, onError)}>
                             <TextInput
@@ -150,14 +150,14 @@ const UpdateForms: FC<UpdateFormsProps> = ({ field, closeModal }) => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="py-2 px-4 border-[1px] rounded-md bg-blue-600 dark:hover:bg-blue-500 hover:bg-blue-700"
+                                    className="rounded-md border-[1px] bg-blue-600 px-4 py-2 hover:bg-blue-700 dark:hover:bg-blue-500"
                                 >
                                     Update
                                 </button>
                                 <button
                                     disabled={loading}
                                     type="button"
-                                    className="py-2 px-4 border-[1px] rounded-md bg-red-600 dark:hover:bg-red-500 hover:bg-red-700"
+                                    className="rounded-md border-[1px] bg-red-600 px-4 py-2 hover:bg-red-700 dark:hover:bg-red-500"
                                     onClick={closeModal}
                                 >
                                     Cancel

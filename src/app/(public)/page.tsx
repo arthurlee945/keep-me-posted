@@ -3,17 +3,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 export default async function Home() {
     return (
-        <main className="relative flex flex-1 px-10 py-5 flex-col gap-y-[100px] items-center tablet:px-5 mobile:px-3 mobile:gap-y-[70px]">
-            <h1 className="font-semibold text-5xl my-[30vh] py-4 transition-[background-color] mobile:text-4xl mobile:my-[15vh] dark:bg-zinc-900 bg-zinc-50 cursor-default text-center">
+        <main className="relative flex flex-1 flex-col items-center gap-y-[100px] px-10 py-5 mobile:gap-y-[70px] mobile:px-3 tablet:px-5">
+            <h1 className="my-[30vh] cursor-default bg-zinc-50 py-4 text-center text-5xl font-semibold transition-[background-color] dark:bg-zinc-900 mobile:my-[15vh] mobile:text-4xl">
                 {'Keep Me Posted'.split('').map((txt, i) => (
-                    <span className="hover:font-extrabold transition-[font-weight]" key={txt + '-' + i}>
+                    <span className="transition-[font-weight] hover:font-extrabold" key={txt + '-' + i}>
                         {txt}
                     </span>
                 ))}
             </h1>
-            <section className="flex justify-between w-full mobile:flex-col mobile:gap-y-5">
-                <div className="w-[47%] py-4 mobile:w-full transition-[background-color] dark:bg-zinc-900 bg-zinc-50">
-                    <h2 className="text-xl font-semibold mb-7">How do you keep track of your dependencies?</h2>
+            <section className="flex w-full justify-between mobile:flex-col mobile:gap-y-5">
+                <div className="w-[47%] bg-zinc-50 py-4 transition-[background-color] dark:bg-zinc-900 mobile:w-full">
+                    <h2 className="mb-7 text-xl font-semibold">How do you keep track of your dependencies?</h2>
                     <div className="flex flex-col gap-y-5">
                         <p>
                             Picture this: You&apos;re sipping your coffee, pondering the mysteries of design, and suddenly, a light bulb
@@ -29,28 +29,28 @@ export default async function Home() {
                         </p>
                     </div>
                 </div>
-                <div className="relative w-[47%] aspect-video p-5 border shadow-lg rounded-md overflow-hidden mobile:w-full">
+                <div className="relative aspect-video w-[47%] overflow-hidden rounded-md border p-5 shadow-lg mobile:w-full">
                     <Image
                         src="/sample-page.webp"
                         sizes="100%"
-                        className="object-cover object-left-top transition-transform hover:scale-110 origin-top-left"
+                        className="origin-top-left object-cover object-left-top transition-transform hover:scale-110"
                         fill
                         alt="keep me posted project display sample"
                     />
                 </div>
             </section>
-            <section className="flex justify-between w-full mobile:flex-col-reverse mobile:gap-y-5">
-                <div className="relative w-[47%] aspect-video border shadow-lg rounded-md overflow-hidden mobile:w-full">
+            <section className="flex w-full justify-between mobile:flex-col-reverse mobile:gap-y-5">
+                <div className="relative aspect-video w-[47%] overflow-hidden rounded-md border shadow-lg mobile:w-full">
                     <Image
                         src="/sample-page-2.webp"
                         sizes="100%"
-                        className="object-cover object-left-top transition-transform hover:scale-110 origin-top-left"
+                        className="origin-top-left object-cover object-left-top transition-transform hover:scale-110"
                         fill
                         alt="keep me posted project display sample"
                     />
                 </div>
-                <div className="w-[47%] mobile:w-full py-4 transition-[background-color] dark:bg-zinc-900 bg-zinc-50">
-                    <h2 className="text-xl font-semibold mb-7">Keep your project up to date!</h2>
+                <div className="w-[47%] bg-zinc-50 py-4 transition-[background-color] dark:bg-zinc-900 mobile:w-full">
+                    <h2 className="mb-7 text-xl font-semibold">Keep your project up to date!</h2>
                     <div className="flex flex-col gap-y-5">
                         <p>
                             Now Picture this: You start on a project and it lend in Started Project graveyard for you to return to revive
@@ -74,10 +74,10 @@ export default async function Home() {
             <section className="my-[30vh] mobile:my-[15vh]">
                 <Link
                     href="/contact-us"
-                    className="font-semibold text-5xl my-[30vh] py-4 mobile:text-4xl mobile:my-[15vh] dark:bg-zinc-900 bg-zinc-50 transition-[background-color] cursor-pointer text-center"
+                    className="my-[30vh] cursor-pointer bg-zinc-50 py-4 text-center text-5xl font-semibold transition-[background-color] dark:bg-zinc-900 mobile:my-[15vh] mobile:text-4xl"
                 >
                     {"Let's get started!".split('').map((txt, i) => (
-                        <span className="hover:font-extrabold transition-[font-weight]" key={txt + '-last' + '-' + i}>
+                        <span className="transition-[font-weight] hover:font-extrabold" key={txt + '-last' + '-' + i}>
                             {txt}
                         </span>
                     ))}

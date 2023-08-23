@@ -39,7 +39,7 @@ const ProjectsList: FC<ProjectsListProps> = ({ initialData }) => {
     const projects = data?.pages.flatMap((p) => p);
     const lastProjIndex = projects && projects.length - 1;
     return (
-        <section className="w-full flex flex-wrap gap-x-[4%] gap-y-7 tablet:justify-between">
+        <section className="flex w-full flex-wrap gap-x-[4%] gap-y-7 tablet:justify-between">
             {projects &&
                 projects?.map((proj: projectData, i: number) => (
                     <ProjectCard

@@ -5,8 +5,8 @@ interface MainHeaderProps {}
 
 const MainHeader: FC<MainHeaderProps> = () => {
     return (
-        <header className="sticky z-10 top-0 w-full p-4 flex items-center justify-between border-b-[1px] bg-inherit tablet:p-3 mobile:p-3">
-            <Link className="font-semibold text-xl hover:tracking-widest transition-[letter-spacing]" href="/">
+        <header className="sticky top-0 z-10 flex w-full items-center justify-between border-b-[1px] bg-inherit p-4 mobile:p-3 tablet:p-3">
+            <Link className="text-xl font-semibold transition-[letter-spacing] hover:tracking-widest" href="/">
                 K.M.P.
             </Link>
             <NavComponents />

@@ -87,11 +87,11 @@ const SignInForm = () => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.div
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-full "
+                    className="flex w-[30%] min-w-[375px] flex-col gap-y-[15px] rounded-[5px] border-[1px] p-4 mobile:w-full mobile:min-w-0 "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
-                    <h1 className="text-2xl font-semibold mb-3">Sign In</h1>
+                    <h1 className="mb-3 text-2xl font-semibold">Sign In</h1>
                     {globalError && (
                         <GlobalErrorMessage
                             error={globalError}
@@ -103,7 +103,7 @@ const SignInForm = () => {
                             }}
                         />
                     )}
-                    <div className="relative flex flex-col text-sm align-center">
+                    <div className="align-center relative flex flex-col text-sm">
                         {loading && <LoadingContainer />}
                         <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput
@@ -126,9 +126,9 @@ const SignInForm = () => {
                             <SubmitButton disabled={loading}>Sign In With K.M.P.</SubmitButton>
                         </form>
                         <p
-                            className="w-full my-4 text-xs flex justify-center items-center 
-                        before:content-[''] before:flex-1 before:h-[1px] before:dark:bg-zinc-50 before:bg-zinc-900 before:mr-1
-                        after:content-[''] after:flex-1 after:h-[1px] after:dark:bg-zinc-50 after:bg-zinc-900 after:ml-1"
+                            className="my-4 flex w-full items-center justify-center text-xs 
+                        before:mr-1 before:h-[1px] before:flex-1 before:bg-zinc-900 before:content-[''] after:ml-1
+                        after:h-[1px] after:flex-1 after:bg-zinc-900 after:content-[''] before:dark:bg-zinc-50 after:dark:bg-zinc-50"
                         >
                             OR
                         </p>
@@ -140,7 +140,7 @@ const SignInForm = () => {
                             }}
                             disabled={loading}
                         >
-                            <GoogleIcon className="w-4 h-4" />
+                            <GoogleIcon className="h-4 w-4" />
                             Sign In With Gmail
                         </SubmitButton>
                         <div className="mt-6">

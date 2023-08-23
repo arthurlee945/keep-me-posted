@@ -12,7 +12,7 @@ const FormErrorMessage: FC<FormErrorMessageProps> = ({ errors }) => {
             <AnimatePresence>
                 {errors && errors.message && (
                     <m.p
-                        className="text-red-600 text-xs"
+                        className="text-xs text-red-600"
                         initial={{ y: '-100%', height: 0, opacity: 0 }}
                         animate={{ y: 0, height: 'auto', opacity: 1 }}
                         exit={{ y: '-100%', height: 0, opacity: 0 }}

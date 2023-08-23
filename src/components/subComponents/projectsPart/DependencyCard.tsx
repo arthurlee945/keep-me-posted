@@ -24,7 +24,7 @@ const DependencyCard: FC<DependencyCardProps> = ({ depName, currentVersion }) =>
     });
     const typedData = data as ProcessedDepType;
     return (
-        <section className={'w-full py-2 px-4 border rounded-md grid grid-cols-3 mobile:grid-cols-1 mobile:grid-rows-3 mobile:gap-y-4'}>
+        <section className={'grid w-full grid-cols-3 rounded-md border px-4 py-2 mobile:grid-cols-1 mobile:grid-rows-3 mobile:gap-y-4'}>
             <h3 className="font-semibold mobile:place-self-center">{depName}</h3>
             <div className="flex items-center mobile:place-self-center">
                 <span>{currentVersion}</span>
@@ -33,7 +33,7 @@ const DependencyCard: FC<DependencyCardProps> = ({ depName, currentVersion }) =>
                     {isLoading ? 'loading' : typedData.latest}
                 </span>
             </div>
-            <div className="place-self-center flex gap-x-7">
+            <div className="flex gap-x-7 place-self-center">
                 <Link
                     href={typedData?.homepage ?? '/'}
                     className={twMerge(

@@ -5,7 +5,7 @@ import { useState } from 'react';
 const AboutContent = () => {
     const [textSize, setTextSize] = useState<'little' | 'normally' | 'loudly'>('little');
     return (
-        <section className="w-3/5 flex flex-col gap-y-4 mobile:w-full">
+        <section className="flex w-3/5 flex-col gap-y-4 mobile:w-full">
             <h1 className="text-2xl font-semibold">
                 Let me tell you{' '}
                 <button

@@ -88,13 +88,13 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.div
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[400px] w-[40%] mobile:min-w-0 mobile:w-full "
+                    className="flex w-[40%] min-w-[400px] flex-col gap-y-[15px] rounded-[5px] border-[1px] p-4 mobile:w-full mobile:min-w-0 "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-3xl font-semibold mb-3 text-center">Contact Us</h1>
+                            <h1 className="mb-3 text-center text-3xl font-semibold">Contact Us</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -108,7 +108,7 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                             )}
                         </>
                     )}
-                    <div className="relative flex flex-col text-sm align-center">
+                    <div className="align-center relative flex flex-col text-sm">
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
@@ -142,10 +142,10 @@ const ContactUsForm: FC<ContactUsFormProps> = () => {
                             </>
                         ) : (
                             <>
-                                <h1 className="font-bold text-xl mb-2 text-center">Your Request is Sent!</h1>
-                                <p className="text-base text-center">We will get back to you shortly</p>
+                                <h1 className="mb-2 text-center text-xl font-bold">Your Request is Sent!</h1>
+                                <p className="text-center text-base">We will get back to you shortly</p>
                                 <Link
-                                    className="border-[1px] py-2 px-4 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold self-center mt-5"
+                                    className="mt-5 self-center rounded-[5px] border-[1px] px-4 py-2 font-semibold transition-[letter-spacing] hover:tracking-wider"
                                     href="/"
                                 >
                                     Home

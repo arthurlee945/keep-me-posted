@@ -44,15 +44,15 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
     return (
         <>
             {btnState && (
-                <div className="z-20 absolute top-0 left-0 flex justify-center items-center w-screen h-screen backdrop-brightness-75 backdrop-blur-sm">
-                    <section className="relative flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[350px] w-[30%] mobile:min-w-0 mobile:w-10/12">
+                <div className="absolute left-0 top-0 z-20 flex h-screen w-screen items-center justify-center backdrop-blur-sm backdrop-brightness-75">
+                    <section className="relative flex w-[30%] min-w-[350px] flex-col gap-y-[15px] rounded-[5px] border-[1px] p-4 mobile:w-10/12 mobile:min-w-0">
                         {loading && <LoadingContainer />}
                         {error ? (
                             <>
-                                <h1 className="text-center font-semibold text-lg text-ellipsis max-h-1/2">{error}</h1>
+                                <h1 className="max-h-1/2 text-ellipsis text-center text-lg font-semibold">{error}</h1>
                                 <button
                                     disabled={loading}
-                                    className="py-2 px-4 border-[1px] rounded-md  bg-red-600 dark:hover:bg-red-500 hover:bg-red-700 self-center"
+                                    className="self-center rounded-md border-[1px] bg-red-600  px-4 py-2 hover:bg-red-700 dark:hover:bg-red-500"
                                     onClick={handleInitialBtnClick.bind(null, false)}
                                 >
                                     Close
@@ -60,21 +60,21 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
                             </>
                         ) : (
                             <>
-                                <h1 className="text-center font-semibold text-lg">
-                                    You are about to <span className="text-red-600 font-bold">Delete</span> your account. <br />
+                                <h1 className="text-center text-lg font-semibold">
+                                    You are about to <span className="font-bold text-red-600">Delete</span> your account. <br />
                                     Are you Sure?
                                 </h1>
                                 <div className="flex justify-center gap-x-8">
                                     <button
                                         disabled={loading}
-                                        className="py-2 px-4 border-[1px] rounded-md bg-red-600 dark:hover:bg-red-500 hover:bg-red-700"
+                                        className="rounded-md border-[1px] bg-red-600 px-4 py-2 hover:bg-red-700 dark:hover:bg-red-500"
                                         onClick={handleDeleteConfirmClick}
                                     >
                                         Yes
                                     </button>
                                     <button
                                         disabled={loading}
-                                        className="py-2 px-4 border-[1px] rounded-md bg-green-600 dark:hover:bg-green-500 hover:bg-green-700"
+                                        className="rounded-md border-[1px] bg-green-600 px-4 py-2 hover:bg-green-700 dark:hover:bg-green-500"
                                         onClick={handleInitialBtnClick.bind(null, false)}
                                     >
                                         No
@@ -87,7 +87,7 @@ const DeleteAccountButton: FC<DeleteAccountButtonProps> = () => {
             )}
             <button
                 className={
-                    'py-2 px-8 rounded-lg hover:text-zinc-50 transition-[border-color,background-color,color] border-[1px] hover:border-transparent hover:bg-red-600 w-fit self-end font-semibold bg-transparent border-red-600 text-red-600 mobile:px-4'
+                    'w-fit self-end rounded-lg border-[1px] border-red-600 bg-transparent px-8 py-2 font-semibold text-red-600 transition-[border-color,background-color,color] hover:border-transparent hover:bg-red-600 hover:text-zinc-50 mobile:px-4'
                 }
                 onClick={handleInitialBtnClick.bind(null, true)}
             >

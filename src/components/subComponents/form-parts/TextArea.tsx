@@ -17,20 +17,20 @@ const TextArea: FC<TextAreaProps> = ({ id, label, errors, isDirty, register, res
         resetField(id, { defaultValue: '', keepDirty: false });
     };
     return (
-        <div className="relative flex flex-col justify-center w-full gap-y-[2px]">
-            <div className="flex items-center relative w-full">
+        <div className="relative flex w-full flex-col justify-center gap-y-[2px]">
+            <div className="relative flex w-full items-center">
                 <textarea
                     rows={5}
                     className={`${isDirty ? 'is-dirty' : ''} ${
                         errors ? 'has-error' : ''
-                    } bg-transparent resize-none w-full border-[1px] rounded-[5px] px-[15px] py-2 focus:outline-0 peer [&.has-error]:border-red-600 `}
+                    } peer w-full resize-none rounded-[5px] border-[1px] bg-transparent px-[15px] py-2 focus:outline-0 [&.has-error]:border-red-600 `}
                     id={id}
                     {...register(id, { onChange: handleReset })}
                 />
                 <label
-                    className="absolute left-[15px] top-[0.5rem] transition-[font-size,transform,background-color] leading-none text-base dark:bg-zinc-900 bg-zinc-50
-                    peer-hover:-translate-y-full  peer-focus:-translate-y-full peer-[.is-dirty]:-translate-y-full
-                    peer-hover:text-sm peer-focus:text-sm peer-[.is-dirty]:text-sm peer-[.has-error]:text-red-600"
+                    className="absolute left-[15px] top-[0.5rem] bg-zinc-50 text-base leading-none transition-[font-size,transform,background-color] peer-hover:-translate-y-full
+                    peer-hover:text-sm  peer-focus:-translate-y-full peer-focus:text-sm
+                    peer-[.is-dirty]:-translate-y-full peer-[.is-dirty]:text-sm peer-[.has-error]:text-red-600 dark:bg-zinc-900"
                     htmlFor={id}
                 >
                     {label}

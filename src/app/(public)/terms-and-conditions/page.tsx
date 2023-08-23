@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 const TermsAndConditionsPage = () => {
     return (
-        <main className="flex px-10 py-5 flex-1 flex-col tablet:px-5 mobile:px-3">
-            <h1 className="text-3xl font-bold mb-5">Terms & Conditions</h1>
+        <main className="flex flex-1 flex-col px-10 py-5 mobile:px-3 tablet:px-5">
+            <h1 className="mb-5 text-3xl font-bold">Terms & Conditions</h1>
             <section aria-label="terms and condition content" className="flex flex-col gap-y-5 mobile:gap-y-3 tablet:gap-y-4">
                 <p>Thank you for joining Keep Me Posted</p>
                 <p>
@@ -74,7 +74,7 @@ const TermsAndConditionsPage = () => {
                     statutory duty, or otherwise, arising under or in connection with this Agreement for:
                 </p>
 
-                <ul className="list-disc ml-5">
+                <ul className="ml-5 list-disc">
                     <li>loss of profits;</li>
                     <li>loss of sales or business;</li>
                     <li>loss of agreements or contracts;</li>
@@ -124,7 +124,7 @@ const TermsAndConditionsPage = () => {
                     <Link
                         href="https://github.com/arthurlee945"
                         target="_blank"
-                        className="underline dark:hover:text-blue-300 hover:text-blue-600"
+                        className="underline hover:text-blue-600 dark:hover:text-blue-300"
                     >
                         github
                     </Link>

@@ -11,7 +11,7 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
     return (
         <div
             className={twMerge(
-                `w-14 border-[1px] flex h-fit rounded-3xl border-zinc-900 dark:border-zinc-100  ${
+                `flex h-fit w-14 rounded-3xl border-[1px] border-zinc-900 dark:border-zinc-100  ${
                     darkMode ? 'justify-end' : 'justify-start'
                 }`,
                 className
@@ -20,7 +20,7 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
             <LazyMotion features={domAnimation}>
                 <m.button
                     layout
-                    className="bg-zinc-900 dark:bg-zinc-100 w-[22px] h-[22px] p-[2px] aspect-square rounded-full transition-colors"
+                    className="aspect-square h-[22px] w-[22px] rounded-full bg-zinc-900 p-[2px] transition-colors dark:bg-zinc-100"
                     onClick={() => {
                         setDarkMode(!darkMode);
                     }}
@@ -29,7 +29,7 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
                         {darkMode ? (
                             <m.span
                                 key="moon-icon"
-                                className="flex w-full h-full"
+                                className="flex h-full w-full"
                                 animate={{ rotate: '360deg' }}
                                 exit={{ rotate: '0deg' }}
                                 transition={{ duration: 0.15 }}
@@ -39,7 +39,7 @@ const DarkModeToggle = ({ className }: { className?: string }) => {
                         ) : (
                             <m.span
                                 key="sun-icon"
-                                className="flex w-full h-full"
+                                className="flex h-full w-full"
                                 animate={{ rotate: '360deg' }}
                                 exit={{ rotate: '0deg' }}
                                 transition={{ duration: 0.15 }}

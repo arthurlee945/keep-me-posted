@@ -9,12 +9,12 @@ interface GlobalErrorMessageProps {
 const GlobalErrorMessage: FC<GlobalErrorMessageProps> = ({ error, closeError }) => {
     return (
         <m.div
-            className="flex items-center justify-between p-2 border-[1px] gap-x-6 border-red-600 rounded-[5px]"
+            className="flex items-center justify-between gap-x-6 rounded-[5px] border-[1px] border-red-600 p-2"
             initial={{ x: 15, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
         >
-            <p className="text-red-600  text-sm">{error}</p>
-            <button className="w-6 h-6" onClick={closeError}>
+            <p className="text-sm  text-red-600">{error}</p>
+            <button className="h-6 w-6" onClick={closeError}>
                 <CloseIcon className="fill-red-600" />
             </button>
         </m.div>

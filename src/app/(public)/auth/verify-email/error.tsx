@@ -1,8 +1,8 @@
 'use client';
 const VerifyEmailError = () => {
     return (
-        <main className="flex-1 w-full flex justify-center items-center p-5">
-            <h1 className="text-xl font-semibold text-center">Sorry Something went wrong</h1>
+        <main className="flex w-full flex-1 items-center justify-center p-5">
+            <h1 className="text-center text-xl font-semibold">Sorry Something went wrong</h1>
         </main>
     );
 };

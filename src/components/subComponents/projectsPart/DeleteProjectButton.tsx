@@ -24,7 +24,7 @@ const DeleteProjectButton: FC<DeleteProjectButtonProps> = ({ projectId }) => {
     };
     return (
         <button
-            className="py-2 px-8 rounded-lg text-red-600 transition-[border-color,background-color,color] border-[1px] border-red-600 bg-transparent w-fit self-end font-semibold hover:bg-red-600 hover:border-transparent hover:text-zinc-50 mobile:px-6 mobile:text-sm"
+            className="w-fit self-end rounded-lg border-[1px] border-red-600 bg-transparent px-8 py-2 font-semibold text-red-600 transition-[border-color,background-color,color] hover:border-transparent hover:bg-red-600 hover:text-zinc-50 mobile:px-6 mobile:text-sm"
             onClick={handleDeleteProject}
             disabled={isSendingRequest}
         >

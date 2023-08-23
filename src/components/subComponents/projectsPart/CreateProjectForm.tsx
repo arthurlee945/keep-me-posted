@@ -91,7 +91,7 @@ const CreateProjectForm = () => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.div
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-full "
+                    className="flex w-[30%] min-w-[375px] flex-col gap-y-[15px] rounded-[5px] border-[1px] p-4 mobile:w-full mobile:min-w-0 "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
@@ -107,7 +107,7 @@ const CreateProjectForm = () => {
                             }}
                         />
                     )}
-                    <div className="relative flex flex-col text-sm align-center">
+                    <div className="align-center relative flex flex-col text-sm">
                         {loading && <LoadingContainer />}
                         <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(onSubmit)}>
                             <TextInput

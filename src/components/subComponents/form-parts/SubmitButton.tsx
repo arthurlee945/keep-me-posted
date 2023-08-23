@@ -12,7 +12,7 @@ const SubmitButton: FC<SubmitButtonProps> = ({ className, type = 'submit', child
     return (
         <button
             className={twMerge(
-                'bg-zinc-900 dark:bg-zinc-50 font-semibold text-zinc-50 dark:text-zinc-900 py-[8px] px-[10px] rounded-[5px] transition-[background-color,_letter-spacing] hover:dark:bg-zinc-300 hover:bg-zinc-700 hover:tracking-wide disabled:dark:bg-zinc-200 disabled:bg-zinc-800 disabled:cursor-not-allowed',
+                'rounded-[5px] bg-zinc-900 px-[10px] py-[8px] font-semibold text-zinc-50 transition-[background-color,_letter-spacing] hover:bg-zinc-700 hover:tracking-wide disabled:cursor-not-allowed disabled:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 hover:dark:bg-zinc-300 disabled:dark:bg-zinc-200',
                 className
             )}
             type={type}

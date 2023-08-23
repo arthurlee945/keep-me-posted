@@ -92,13 +92,13 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
         <LazyMotion features={domAnimation}>
             <AnimatePresence>
                 <m.div
-                    className="flex flex-col border-[1px] p-4 gap-y-[15px] rounded-[5px] min-w-[375px] w-[30%] mobile:min-w-0 mobile:w-full "
+                    className="flex w-[30%] min-w-[375px] flex-col gap-y-[15px] rounded-[5px] border-[1px] p-4 mobile:w-full mobile:min-w-0 "
                     initial={{ y: -10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                 >
                     {!submitted && (
                         <>
-                            <h1 className="text-2xl font-semibold mb-3">New Password</h1>
+                            <h1 className="mb-3 text-2xl font-semibold">New Password</h1>
                             {globalError && (
                                 <GlobalErrorMessage
                                     error={globalError}
@@ -112,7 +112,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                             )}
                         </>
                     )}
-                    <div className="relative flex flex-col text-sm align-center">
+                    <div className="align-center relative flex flex-col text-sm">
                         {!submitted ? (
                             <>
                                 {loading && <LoadingContainer />}
@@ -149,13 +149,13 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ token }) => {
                             </>
                         ) : (
                             <>
-                                <h1 className="text-lg text-center mb-6">
-                                    <span className="font-bold line">Password reset successful!</span>
+                                <h1 className="mb-6 text-center text-lg">
+                                    <span className="line font-bold">Password reset successful!</span>
                                     <br />
                                     <span className="text-sm">Please sign back in with your new password!</span>
                                 </h1>
                                 <Link
-                                    className="border-[1px] py-2 px-5 rounded-[5px] transition-[letter-spacing] hover:tracking-wider font-semibold w-fit self-center"
+                                    className="w-fit self-center rounded-[5px] border-[1px] px-5 py-2 font-semibold transition-[letter-spacing] hover:tracking-wider"
                                     href="/auth/signin"
                                 >
                                     Sign In
