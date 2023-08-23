@@ -1,6 +1,8 @@
 import HomePageLine from '@/components/Modules/HomePageLine';
 import Image from 'next/image';
 import Link from 'next/link';
+import Image2 from './sample-page-2.webp';
+import Image1 from './sample-page.webp';
 export default async function Home() {
     return (
         <main className="relative flex flex-1 flex-col items-center gap-y-[100px] px-10 py-5 mobile:gap-y-[70px] mobile:px-3 tablet:px-5">
@@ -31,7 +33,7 @@ export default async function Home() {
                 </div>
                 <div className="relative aspect-video w-[47%] overflow-hidden rounded-md border p-5 shadow-lg mobile:w-full">
                     <Image
-                        src="/sample-page.webp"
+                        src={Image1}
                         sizes="100%"
                         className="origin-top-left object-cover object-left-top transition-transform hover:scale-110"
                         fill
@@ -42,7 +44,7 @@ export default async function Home() {
             <section className="flex w-full justify-between mobile:flex-col-reverse mobile:gap-y-5">
                 <div className="relative aspect-video w-[47%] overflow-hidden rounded-md border shadow-lg mobile:w-full">
                     <Image
-                        src="/sample-page-2.webp"
+                        src={Image2}
                         sizes="100%"
                         className="origin-top-left object-cover object-left-top transition-transform hover:scale-110"
                         fill
